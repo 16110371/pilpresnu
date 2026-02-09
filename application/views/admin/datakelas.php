@@ -10,6 +10,7 @@
 						<thead>
 							<th width="20">No</th>
 							<th>Nama Kelas</th>
+							<th>Kode Kelas</th>
 							<th>Aksi</th>
 						</thead>
 						<tbody>
@@ -20,6 +21,7 @@
 								<tr>
 									<td><?php echo $no++; ?></td>
 									<td><?php echo $load['nm_kelas']; ?></td>
+									<td><?php echo $load['kd_kelas']; ?></td>
 									<td width="100"><a href="<?php echo base_url('index.php/admin/hapuskelas'); ?>/<?php echo $load['kd_kelas']; ?>"><button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span>&nbsp;&nbsp;Hapus</button></a></td>
 								</tr>
 							<?php

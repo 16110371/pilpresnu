@@ -3,19 +3,13 @@ class User_Model extends CI_Model
 {
 	public function login($username, $password)
 	{
-		$condition	= "username=" . "'" . $username . "'" . " AND " . "password=" . "'" . $password . "'";
-		$select		= array('username', 'password');
-		$this->db->select($select);
-		$this->db->from('tb_siswa');
-		$this->db->where($condition);
-		$login 		= $this->db->get();
-
-		if ($login->num_rows() > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return $this->db
+			->where('username', $username)
+			->where('password', $password)
+			->get('tb_siswa')
+			->row(); // 👈 return DATA, bukan boolean
 	}
+
 	public function valid($username)
 	{
 		$condition	= "username=" . "'" . $username . "'";
@@ -57,5 +51,14 @@ class User_Model extends CI_Model
 	{
 		$update = $this->db->query("UPDATE tb_siswa SET hadir='Hadir' WHERE username='$username'");
 		return $update;
+	}
+
+	public function datacalon_by_jk($jk)
+	{
+		return $this->db
+			->where('jk', $jk)
+			->order_by('no', 'ASC')
+			->get('tb_pilihan')
+			->result_array();
 	}
 }

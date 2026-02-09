@@ -62,6 +62,21 @@
 					);
 					echo form_textarea($form_attribute);
 					?>
+					<label class="label-control"> Jenis Kelamin Calon</label>
+					<?php
+					$options = array(
+						''  => '-- Pilih Jenis Kelamin --',
+						'L' => 'Laki-laki',
+						'P' => 'Perempuan'
+					);
+
+					echo form_dropdown(
+						'jk',
+						$options,
+						'',
+						'class="form-control" required'
+					);
+					?>
 					<label class="label-control"> Foto</label>
 					<?php
 					$form_attribute	= array(
@@ -94,6 +109,7 @@
 								<th class="text-center">No</th>
 								<th class="text-center">Nama Calon</th>
 								<th class="text-center">Visi Misi</th>
+								<th class="text-center">Jenis Kelamin</th>
 								<th class="text-center">Photo Calon</th>
 								<th class="text-center" width="150">Aksi</th>
 							</tr>
@@ -107,6 +123,7 @@
 									<td class="text-center"><?php echo $loaddata['no']; ?></td>
 									<td><?php echo $loaddata['nama']; ?></td>
 									<td><?php echo $loaddata['visimisi']; ?></td>
+									<td class="text-center"><?php echo $loaddata['jk']; ?></td>
 									<td class="text-center"><img width="50" src="<?php echo base_url(); ?>/asset/img/<?php echo $loaddata['photo']; ?>"></td>
 									<td>
 										<a class="btn btn-xs btn-info" href="<?php echo base_url(); ?>admin/editcalon/<?php echo $loaddata['nisn']; ?>">

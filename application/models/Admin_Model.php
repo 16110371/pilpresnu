@@ -131,6 +131,18 @@ class Admin_Model extends CI_Model
 		$load	= $this->db->query("SELECT * FROM tb_pilihan ORDER BY no asc");
 		return $load->result_array();
 	}
+
+	public function datacalon_by_jk($jk)
+	{
+		$query = $this->db->query("
+        SELECT * 
+        FROM tb_pilihan
+        WHERE jk = ?
+        ORDER BY no ASC
+    ", [$jk]);
+
+		return $query->result_array();
+	}
 	public function datakddpt($username)
 	{
 		$load = $this->db->query("SELECT * FROM tb_siswa INNER JOIN tb_kelas ON tb_kelas.kd_kelas = tb_siswa.kd_kelas WHERE tb_siswa.username='$username'");

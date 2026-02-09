@@ -20,25 +20,32 @@ class User extends CI_Controller
 	}
 	public function loginvalidation()
 	{
-		$username				= $this->input->post('username', TRUE);
-		$password				= $this->input->post('password', TRUE);
-		$result					= $this->User_Model->login($username, $password);
-		$valid					= $this->User_Model->valid($username);
+		$username = $this->input->post('username', TRUE);
+		$password = $this->input->post('password', TRUE);
+
+		$user  = $this->User_Model->login($username, $password);
+		$valid = $this->User_Model->valid($username);
+
 		if ($valid == true) {
-			$this->session->set_flashdata('block', 'Anda Sudah Pernah Melakukan Voting, Akun Anda Sekarang Dinonaktifkan, Jika Anda Merasa Belum Pernah Melakukan Voting Sebelumnya, Silahkan Hubungi Pengurus Untuk Mengaktifkan Akun Anda');
+			$this->session->set_flashdata(
+				'block',
+				'Anda Sudah Pernah Melakukan Voting'
+			);
 			redirect('user/login');
+		}
+
+		if ($user) {
+			$this->session->set_userdata([
+				'username' => $user->username,
+				'jk'       => $user->jk   // 🔥 INI KUNCI UTAMANYA
+			]);
+			redirect('user/index');
 		} else {
-			if ($result == true) {
-				$this->session->set_userdata(array(
-					'username'	=> $username
-				));
-				redirect('user/index');
-			} else {
-				$this->session->set_flashdata('failed', 'Username atau Password Salah');
-				redirect('user/login');
-			}
+			$this->session->set_flashdata('failed', 'Username atau Password Salah');
+			redirect('user/login');
 		}
 	}
+
 	public function logout()
 	{
 		$this->session->unset_userdata('username');
@@ -51,7 +58,8 @@ class User extends CI_Controller
 		}
 		$user				= $_SESSION['username'];
 		$data['username']	= $user;
-		$data['datacalon']	= $this->User_Model->datamodel();
+		$jk = $this->session->userdata('jk');
+		$data['datacalon'] = $this->User_Model->datacalon_by_jk($jk);
 		$this->load->view('user/head');
 		$this->load->view('user/navbar');
 		$this->load->view('user/index', $data);
@@ -62,13 +70,15 @@ class User extends CI_Controller
 		if (!$this->session->userdata('username')) {
 			redirect('user/login');
 		}
-		$nisn		= $this->input->post('nisn');
-		$username	= $this->input->post('username');
-		$vote		= $this->User_Model->vote($nisn, $username);
-		$hadir		= $this->User_Model->hadir($username);
-		if ($vote = true) {
-			redirect('user/viewlogout');
-		}
+
+		$nisn     = $this->input->post('nisn');
+		$username = $this->session->userdata('username');
+
+		$this->User_Model->vote($nisn, $username);
+		$this->User_Model->hadir($username);
+
+		redirect('user/viewlogout'); // LANGSUNG
+		exit;
 	}
 	public function viewlogout()
 	{

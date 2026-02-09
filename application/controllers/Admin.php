@@ -331,7 +331,12 @@
 			$nisn			= $this->input->post('nisn');
 			$no				= $this->input->post('no');
 			$nama			= $this->input->post('nama');
+			$jk				= $this->input->post('jk');
 			$visimisi		= $this->input->post('visimisi');
+			if (!in_array($jk, ['L', 'P'])) {
+				$this->session->set_flashdata('failed', 'Jenis kelamin calon wajib dipilih');
+				redirect('admin/datacalon');
+			}
 			$config['upload_path']	= "./asset/img/";
 			$config['allowed_types'] = "gif|jpg|jpeg|png";
 			$config['max_size']		= 1024;
@@ -343,7 +348,7 @@
 				$img 				= $_FILES['photo']['name'];
 				$img_ext			= pathinfo($img, PATHINFO_EXTENSION);
 				$photo				= $config['file_name'] . "." . $img_ext;
-				$this->Admin_Model->tambahcalon($nisn, $no, $nama, $visimisi, $photo);
+				$this->Admin_Model->tambahcalon($nisn, $no, $nama, $jk, $visimisi, $photo);
 				redirect('admin/datacalon');
 			} else {
 				$this->session->set_flashdata('failed', 'Gagal Menambahkan Data');
