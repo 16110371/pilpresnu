@@ -73,13 +73,39 @@ class User extends CI_Controller
 
 		$nisn     = $this->input->post('nisn');
 		$username = $this->session->userdata('username');
+		$role     = $this->session->userdata('role'); // siswa / guru
 
-		$this->User_Model->vote($nisn, $username);
-		$this->User_Model->hadir($username);
+		// ambil JK dari kandidat
+		$jk_calon = $this->User_Model->get_jk_calon($nisn);
 
-		redirect('user/viewlogout'); // LANGSUNG
-		exit;
+		// simpan vote
+		$vote = $this->User_Model->vote($nisn, $username, $jk_calon);
+
+		// sudah pernah vote di JK itu
+		if ($vote === false) {
+			redirect('user/index');
+			exit;
+		}
+
+		// siswa langsung selesai
+		if ($role === 'siswa') {
+			$this->User_Model->hadir($username);
+			redirect('user/viewlogout');
+			exit;
+		}
+
+		// guru harus pilih L & P
+		if ($role === 'guru') {
+			if ($this->User_Model->guru_selesai_vote($username)) {
+				$this->User_Model->hadir($username);
+				redirect('user/viewlogout');
+			} else {
+				redirect('user/index'); // lanjut sesi berikutnya
+			}
+			exit;
+		}
 	}
+
 	public function viewlogout()
 	{
 		if (!$this->session->userdata('username')) {

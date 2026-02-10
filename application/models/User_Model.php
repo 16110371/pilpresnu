@@ -29,23 +29,24 @@ class User_Model extends CI_Model
 		$load	= $this->db->query("SELECT * FROM tb_pilihan ORDER BY no ASC");
 		return $load->result_Array();
 	}
-	public function vote($nisn, $username)
+	public function vote($nisn, $username, $jk_calon)
 	{
-		$condition	= "username=" . "'" . $username . "'";
-		$select		= array('username');
-		$this->db->select($select);
-		$this->db->from('view_vote');
-		$this->db->where($condition);
-		$vote 		= $this->db->get();
-		if ($vote->num_rows() > 0) {
-			return true;
-		} else {
-			$data			= array(
-				'nisn'		=> $nisn,
-				'username'	=> $username
-			);
-			$this->db->insert('tb_pilih', $data);
+		$cek = $this->db
+			->join('tb_pilihan', 'tb_pilihan.nisn = tb_pilih.nisn')
+			->where('tb_pilih.username', $username)
+			->where('tb_pilihan.jk', $jk_calon)
+			->get('tb_pilih');
+
+		if ($cek->num_rows() > 0) {
+			return false;
 		}
+
+		$this->db->insert('tb_pilih', [
+			'nisn'     => $nisn,
+			'username' => $username
+		]);
+
+		return true;
 	}
 	public function hadir($username)
 	{
@@ -60,5 +61,25 @@ class User_Model extends CI_Model
 			->order_by('no', 'ASC')
 			->get('tb_pilihan')
 			->result_array();
+	}
+
+	public function get_jk_calon($nisn)
+	{
+		return $this->db
+			->select('jk')
+			->where('nisn', $nisn)
+			->get('tb_pilihan')
+			->row()
+			->jk;
+	}
+
+	public function guru_selesai_vote($username)
+	{
+		return $this->db
+			->join('tb_pilihan', 'tb_pilihan.nisn = tb_pilih.nisn')
+			->where('tb_pilih.username', $username)
+			->group_by('tb_pilihan.jk')
+			->get('tb_pilih')
+			->num_rows() >= 2;
 	}
 }
