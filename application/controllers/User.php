@@ -23,28 +23,23 @@ class User extends CI_Controller
 		$username = $this->input->post('username', TRUE);
 		$password = $this->input->post('password', TRUE);
 
-		$user  = $this->User_Model->login($username, $password);
-		$valid = $this->User_Model->valid($username);
+		$user = $this->User_Model->login($username, $password);
 
-		if ($valid == true) {
-			$this->session->set_flashdata(
-				'block',
-				'Anda Sudah Pernah Melakukan Voting'
-			);
-			redirect('user/login');
-		}
-
-		if ($user) {
-			$this->session->set_userdata([
-				'username' => $user->username,
-				'jk'       => $user->jk   // 🔥 INI KUNCI UTAMANYA
-			]);
-			redirect('user/index');
-		} else {
+		if (!$user) {
 			$this->session->set_flashdata('failed', 'Username atau Password Salah');
 			redirect('user/login');
 		}
+
+		$this->session->set_userdata([
+			'username' => $user->username,
+			'jk'       => $user->jk,
+			'role'     => $user->role
+		]);
+
+		redirect('user/index');
 	}
+
+
 
 	public function logout()
 	{
@@ -56,15 +51,26 @@ class User extends CI_Controller
 		if (!$this->session->userdata('username')) {
 			redirect('user/login');
 		}
-		$user				= $_SESSION['username'];
-		$data['username']	= $user;
-		$jk = $this->session->userdata('jk');
-		$data['datacalon'] = $this->User_Model->datacalon_by_jk($jk);
+
+		$data['username'] = $this->session->userdata('username');
+		$jk   = $this->session->userdata('jk');
+		$role = $this->session->userdata('role');
+
+		// 🔑 BEDAKAN SISWA & GURU
+		if ($role === 'guru') {
+			// guru lihat semua kandidat
+			$data['datacalon'] = $this->User_Model->datamodel();
+		} else {
+			// siswa hanya lihat kandidat sesuai JK
+			$data['datacalon'] = $this->User_Model->datacalon_by_jk($jk);
+		}
+
 		$this->load->view('user/head');
 		$this->load->view('user/navbar');
 		$this->load->view('user/index', $data);
 		$this->load->view('user/footer');
 	}
+
 	public function vote()
 	{
 		if (!$this->session->userdata('username')) {

@@ -186,9 +186,13 @@ class Admin_Model extends CI_Model
 	}
 	public function countvote()
 	{
-		$count	= $this->db->query("SELECT COUNT(username) AS jumlah FROM view_vote");
-		return $count->result_array();
+		return $this->db
+			->select('COUNT(*) AS jumlah')
+			->where('hadir', 'Hadir')
+			->get('tb_siswa')
+			->result_array();
 	}
+
 	public function hasilvote()
 	{
 		$query = $this->db->query("
@@ -218,30 +222,23 @@ class Admin_Model extends CI_Model
 	}
 	public function jmlvoteL()
 	{
-		$data = $this->db->query("
-		SELECT COUNT(tb_siswa.jk) as L 
-		FROM 
-		tb_siswa 
-		INNER JOIN 
-		tb_pilih
-		ON 
-		tb_siswa.username = tb_pilih.username
-		WHERE jk='L'");
-		return $data->result_array();
+		return $this->db
+			->select('COUNT(*) as L')
+			->where('jk', 'L')
+			->where('hadir', 'Hadir')
+			->get('tb_siswa')
+			->result_array();
 	}
 	public function jmlvoteP()
 	{
-		$data = $this->db->query("
-		SELECT COUNT(tb_siswa.jk) as P 
-		FROM 
-		tb_siswa 
-		INNER JOIN 
-		tb_pilih
-		ON 
-		tb_siswa.username = tb_pilih.username
-		WHERE jk='P'");
-		return $data->result_array();
+		return $this->db
+			->select('COUNT(*) as P')
+			->where('jk', 'P')
+			->where('hadir', 'Hadir')
+			->get('tb_siswa')
+			->result_array();
 	}
+
 	public function kuncivote()
 	{
 		$data	= $this->db->query("SELECT * FROM tb_pilih");

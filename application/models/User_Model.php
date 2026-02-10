@@ -31,23 +31,26 @@ class User_Model extends CI_Model
 	}
 	public function vote($nisn, $username, $jk_calon)
 	{
+		// cek apakah user sudah vote di JK tersebut
 		$cek = $this->db
-			->join('tb_pilihan', 'tb_pilihan.nisn = tb_pilih.nisn')
-			->where('tb_pilih.username', $username)
-			->where('tb_pilihan.jk', $jk_calon)
+			->where('username', $username)
+			->where('jk_pilihan', $jk_calon)
 			->get('tb_pilih');
 
-		if ($cek->num_rows() > 0) {
+		if ($cek === false || $cek->num_rows() > 0) {
 			return false;
 		}
 
+		// simpan vote
 		$this->db->insert('tb_pilih', [
-			'nisn'     => $nisn,
-			'username' => $username
+			'nisn'        => $nisn,
+			'username'    => $username,
+			'jk_pilihan'  => $jk_calon
 		]);
 
 		return true;
 	}
+
 	public function hadir($username)
 	{
 		$update = $this->db->query("UPDATE tb_siswa SET hadir='Hadir' WHERE username='$username'");
@@ -75,11 +78,17 @@ class User_Model extends CI_Model
 
 	public function guru_selesai_vote($username)
 	{
-		return $this->db
-			->join('tb_pilihan', 'tb_pilihan.nisn = tb_pilih.nisn')
-			->where('tb_pilih.username', $username)
-			->group_by('tb_pilihan.jk')
-			->get('tb_pilih')
-			->num_rows() >= 2;
+		$query = $this->db
+			->select('jk_pilihan')
+			->where('username', $username)
+			->group_by('jk_pilihan')
+			->get('tb_pilih');
+
+		if ($query === false) {
+			return false;
+		}
+
+		// guru dianggap selesai jika sudah memilih L dan P
+		return $query->num_rows() >= 2;
 	}
 }
