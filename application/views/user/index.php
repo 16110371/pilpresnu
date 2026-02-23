@@ -1,8 +1,17 @@
 <div class="container">
 	<div class="box">
 		<div class="box-inner">
+			<?php
+			$jk_now = $datacalon[0]['jk'] ?? '';
+			$organisasi = ($jk_now == 'L') ? 'IPNU' : 'IPPNU';
+			?>
+
 			<div class="box-header" style="height:80px; padding:13px;">
-				<p>PEMILIHAN KETUA DAN WAKIL IPNU <br>KOMISARIAT SYUBBANUL WATHON</p>
+				<p>
+					PEMILIHAN KETUA DAN WAKIL <?= $organisasi; ?>
+					<br>
+					KOMISARIAT SYUBBANUL WATHON
+				</p>
 			</div>
 			<div class="box-content">
 
@@ -23,7 +32,7 @@
 											'methode'	=> 'post',
 											'class'		=> 'form-horizontal'
 										);
-										echo form_open('user/vote', $form_attribute); 
+										echo form_open('user/vote', $form_attribute);
 										?>
 										<?php
 										$form_attribute	= array(
@@ -44,10 +53,10 @@
 										echo form_input($form_attribute);
 										?>
 										<h4><?php echo $loaddata['visimisi']; ?>
-										<button class="btn btn-success" style="width: 100%;"><b>(klik/pilih) - PASANGAN NO <?php echo $loaddata['no']; ?></b></button>
-										<?php
-										echo form_close();
-										?>
+											<button class="btn btn-success" style="width: 100%;"><b>(klik/pilih) - PASANGAN NO <?php echo $loaddata['no']; ?></b></button>
+											<?php
+											echo form_close();
+											?>
 									</div>
 								</div>
 							</div>

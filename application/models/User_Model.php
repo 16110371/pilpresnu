@@ -91,4 +91,13 @@ class User_Model extends CI_Model
 		// guru dianggap selesai jika sudah memilih L dan P
 		return $query->num_rows() >= 2;
 	}
+
+	public function jk_sudah_dipilih($username)
+	{
+		return $this->db
+			->select('jk_pilihan')
+			->where('username', $username)
+			->get('tb_pilih')
+			->result_array();
+	}
 }

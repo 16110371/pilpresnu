@@ -52,17 +52,28 @@ class User extends CI_Controller
 			redirect('user/login');
 		}
 
-		$data['username'] = $this->session->userdata('username');
-		$jk   = $this->session->userdata('jk');
-		$role = $this->session->userdata('role');
+		$username = $this->session->userdata('username');
+		$role     = $this->session->userdata('role');
+		$jk_user  = $this->session->userdata('jk');
 
-		// 🔑 BEDAKAN SISWA & GURU
-		if ($role === 'guru') {
-			// guru lihat semua kandidat
-			$data['datacalon'] = $this->User_Model->datamodel();
-		} else {
-			// siswa hanya lihat kandidat sesuai JK
-			$data['datacalon'] = $this->User_Model->datacalon_by_jk($jk);
+		$data['username'] = $username;
+
+		if ($role == 'siswa') {
+			$data['datacalon'] = $this->User_Model->datacalon_by_jk($jk_user);
+		}
+
+		if ($role == 'dpp') {
+
+			$sudah = $this->User_Model->jk_sudah_dipilih($username);
+			$jk_sudah = array_column($sudah, 'jk_pilihan');
+
+			if (!in_array('L', $jk_sudah)) {
+				$data['datacalon'] = $this->User_Model->datacalon_by_jk('L');
+			} elseif (!in_array('P', $jk_sudah)) {
+				$data['datacalon'] = $this->User_Model->datacalon_by_jk('P');
+			} else {
+				redirect('user/viewlogout');
+			}
 		}
 
 		$this->load->view('user/head');
@@ -79,36 +90,26 @@ class User extends CI_Controller
 
 		$nisn     = $this->input->post('nisn');
 		$username = $this->session->userdata('username');
-		$role     = $this->session->userdata('role'); // siswa / guru
+		$role     = $this->session->userdata('role');
 
-		// ambil JK dari kandidat
-		$jk_calon = $this->User_Model->get_jk_calon($nisn);
+		// ambil JK calon
+		$calon = $this->db->where('nisn', $nisn)
+			->get('tb_pilihan')
+			->row();
 
-		// simpan vote
-		$vote = $this->User_Model->vote($nisn, $username, $jk_calon);
+		$this->User_Model->vote($nisn, $username, $calon->jk);
 
-		// sudah pernah vote di JK itu
-		if ($vote === false) {
-			redirect('user/index');
-			exit;
-		}
+		// tandai hadir 1x saja
+		$this->User_Model->hadir($username);
 
-		// siswa langsung selesai
-		if ($role === 'siswa') {
-			$this->User_Model->hadir($username);
-			redirect('user/viewlogout');
-			exit;
-		}
-
-		// guru harus pilih L & P
-		if ($role === 'guru') {
+		if ($role == 'dpp') {
 			if ($this->User_Model->guru_selesai_vote($username)) {
-				$this->User_Model->hadir($username);
 				redirect('user/viewlogout');
 			} else {
-				redirect('user/index'); // lanjut sesi berikutnya
+				redirect('user/index'); // tampil JK berikutnya
 			}
-			exit;
+		} else {
+			redirect('user/viewlogout');
 		}
 	}
 
