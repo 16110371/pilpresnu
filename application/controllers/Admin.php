@@ -148,6 +148,17 @@
 		}
 		public function resetdata()
 		{
+			$data = $this->db->get('tb_pilihan')->result();
+
+			foreach ($data as $row) {
+				if (!empty($row->photo)) {
+					$path = FCPATH . 'asset/img/' . $row->photo;
+					if (file_exists($path)) {
+						unlink($path);
+					}
+				}
+			}
+
 			$reset = $this->Admin_Model->resetdata();
 			if ($reset = true) {
 				$this->session->set_flashdata('reset', 'Berhasil Mereset Data');
@@ -239,15 +250,31 @@
 		}
 		public function hapuscalon($nisn)
 		{
-			$hapus = $this->Admin_Model->hapuscalon($nisn);
-			if ($hapus = true) {
+			// Ambil dulu data kandidat
+			$kandidat = $this->db->get_where('tb_pilihan', ['nisn' => $nisn])->row();
+
+			if ($kandidat) {
+
+				// Hapus file gambar jika ada
+				if (!empty($kandidat->photo)) {
+					$path = FCPATH . 'asset/img/' . $kandidat->photo;
+
+					if (file_exists($path)) {
+						unlink($path);
+					}
+				}
+
+				// Baru hapus data di database
+				$this->Admin_Model->hapuscalon($nisn);
+
 				$this->session->set_flashdata('info', 'Berhasil Menghapus Data');
-				redirect('admin/datacalon/');
 			} else {
-				$this->session->set_flashdata('failed', 'Gagal Menghapus Data');
-				redirect('admin/datacalon/');
+				$this->session->set_flashdata('failed', 'Data Tidak Ditemukan');
 			}
+
+			redirect('admin/datacalon/');
 		}
+
 		public function tambahdpt()
 		{
 			if (!$this->session->userdata('username')) {
