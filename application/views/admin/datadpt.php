@@ -138,7 +138,11 @@
                         <input type="file" class="form-control col-md-3" name="import_excel" required>
                         <br><br>
                         <button type="submit" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;&nbsp;UPLOAD DATA</button>
-                        <a href="<?php echo base_url(); ?>upload/temp/template_upload_data.xlsx" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-cloud-download"></span>&nbsp;&nbsp;DOWNLOAD EXCEL</a>
+                        <a href="<?= site_url('import/download_template'); ?>"
+                            class="btn btn-sm btn-success">
+                            <span class="glyphicon glyphicon-cloud-download"></span>
+                            &nbsp;&nbsp;DOWNLOAD TEMPLATE
+                        </a>
                         <br />
                     </form>
                 </div>

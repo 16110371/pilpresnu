@@ -1,57 +1,134 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
 date_default_timezone_set("Asia/Jakarta");
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 class Import extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
+        $this->load->library('session');
         $this->db->query("SET time_zone='+7:00'");
-        $this->kolom_xl = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
-        $this->load->library('Excel');
     }
+
     public function siswa()
     {
-        $idx_baris_mulai = 2;
-        $idx_baris_selesai = 1000;
+        if (empty($_FILES['import_excel']['name'])) {
+            $this->session->set_flashdata('error', 'File belum dipilih.');
+            return redirect('admin/datadpt');
+        }
 
-        $target_file = './upload/temp/';
-        $buat_folder_temp = !is_dir($target_file) ? @mkdir("./upload/temp/") : false;
-        move_uploaded_file($_FILES["import_excel"]['tmp_name'], $target_file . $_FILES['import_excel']['name']);
-        $file   = explode('.', $_FILES["import_excel"]['name']);
-        $length = count($file);
-        if ($file[$length - 1] == 'xlsx' || $file[$length - 1] == 'xls') {
-            $tmp    = './upload/temp/' . $_FILES['import_excel']['name'];
-            //Baca dari tmp folder jadi file ga perlu jadi sampah di server :-p
+        $fileName = $_FILES['import_excel']['name'];
+        $fileTmp  = $_FILES['import_excel']['tmp_name'];
+        $ext      = pathinfo($fileName, PATHINFO_EXTENSION);
 
-            $this->load->library('Excel'); //Load library excelnya
-            $read   = PHPExcel_IOFactory::createReaderForFile($tmp);
-            $read->setReadDataOnly(true);
-            $excel  = $read->load($tmp);
+        // Validasi tipe file
+        if (!in_array($ext, ['xls', 'xlsx'])) {
+            $this->session->set_flashdata('error', 'File harus berformat xls atau xlsx.');
+            return redirect('admin/datadpt');
+        }
 
-            $_sheet = $excel->setActiveSheetIndexByName('data');
+        try {
+            $spreadsheet = IOFactory::load($fileTmp);
+            $sheet = $spreadsheet->getActiveSheet();
+            $highestRow = $sheet->getHighestRow();
 
-            $data = array();
-            for ($j = $idx_baris_mulai; $j <= $idx_baris_selesai; $j++) {
-                $username = $_sheet->getCell("A" . $j)->getCalculatedValue();
-                $password = $_sheet->getCell("B" . $j)->getCalculatedValue();
-                $nm_siswa = $_sheet->getCell("C" . $j)->getCalculatedValue();
-                $jk = $_sheet->getCell("D" . $j)->getCalculatedValue();
-                $kd_kelas = $_sheet->getCell("E" . $j)->getCalculatedValue();
+            $success = 0;
+            $errors  = [];
 
-                if ($username != "" || $password != "") {
-                    $data[] = "('" . $username . "', '" . $password . "', '" . $nm_siswa . "', '" . $jk . "','" . $kd_kelas . "')";
+            $this->db->trans_start();
+
+            for ($row = 2; $row <= $highestRow; $row++) {
+
+                $username = trim($sheet->getCell("A$row")->getValue());
+                $password = trim($sheet->getCell("B$row")->getValue());
+                $nm_siswa = trim($sheet->getCell("C$row")->getValue());
+                $jk       = strtoupper(trim($sheet->getCell("D$row")->getValue()));
+                $kd_kelas = trim($sheet->getCell("E$row")->getValue());
+                $role     = strtolower(trim($sheet->getCell("F$row")->getValue()));
+
+                if ($username == "" || $nm_siswa == "") {
+                    continue;
                 }
+
+                // Validasi JK
+                if (!in_array($jk, ['L', 'P'])) {
+                    $errors[] = "Baris $row: JK harus L atau P";
+                    continue;
+                }
+
+                // Validasi Role
+                if (!in_array($role, ['siswa', 'dpp'])) {
+                    $errors[] = "Baris $row: Role harus siswa atau dpp";
+                    continue;
+                }
+
+                // Cek kelas
+                $cek_kelas = $this->db
+                    ->where('kd_kelas', $kd_kelas)
+                    ->get('tb_kelas')
+                    ->row();
+
+                if (!$cek_kelas) {
+                    $errors[] = "Baris $row: Kelas tidak ditemukan";
+                    continue;
+                }
+
+                // Cek username duplikat
+                $cek_user = $this->db
+                    ->where('username', $username)
+                    ->get('tb_siswa')
+                    ->row();
+
+                if ($cek_user) {
+                    $errors[] = "Baris $row: Username sudah ada";
+                    continue;
+                }
+
+                $data = [
+                    'username'  => $username,
+                    'password'  => $password, // masih plain sesuai sistem login
+                    'nm_siswa'  => $nm_siswa,
+                    'jk'        => $jk,
+                    'kd_kelas'  => $kd_kelas,
+                    'hadir'     => 'Tidak Hadir',
+                    'role'      => $role
+                ];
+
+                $this->db->insert('tb_siswa', $data);
+                $success++;
             }
 
-            $strq = "INSERT INTO tb_siswa (username, password, nm_siswa, jk, kd_kelas) VALUES ";
+            $this->db->trans_complete();
 
-            $strq .= implode(",", $data) . ";";
-
-            $this->db->query($strq);
-        } else {
-            exit('Bukan File Excel...'); //pesan error tipe file tidak tepat
+            if ($this->db->trans_status() === FALSE) {
+                $this->session->set_flashdata('error', 'Terjadi kesalahan saat menyimpan data.');
+            } else {
+                $this->session->set_flashdata('success', "$success data berhasil diimport.");
+                if (!empty($errors)) {
+                    $this->session->set_flashdata('error', implode('<br>', $errors));
+                }
+            }
+        } catch (Exception $e) {
+            $this->session->set_flashdata('error', 'File tidak valid atau rusak.');
         }
+
         redirect('admin/datadpt');
+    }
+
+    public function download_template()
+    {
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=template_upload_data.xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        echo "username\tpassword\tnm_siswa\tjk\tkd_kelas\trole\n";
+        echo "1001\t1001\tAhmad Ma'ruf\tL\t1\tsiswa\n";
+        echo "1002\t1002\tAisyah N\tP\t2\tsiswa\n";
+        echo "1234\t1234\tUstadz Fulan\tL\t12\tdpp\n";
     }
 }
