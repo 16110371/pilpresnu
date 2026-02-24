@@ -35,7 +35,7 @@
 			$password		= $this->input->post('password');
 			$password_hash	= md5($password);
 			$update			= $this->Admin_Model->gantipassword($username, $password_hash);
-			if ($update = true) {
+			if ($update == true) {
 				$updateuser	= $this->Admin_Model->updateuser($username);
 				$this->session->set_flashdata('update', 'Berhasil Memperbarui Password');
 				redirect('admin/gantipassword');
@@ -124,7 +124,7 @@
 			$tapel	= $this->input->post("tapel");
 			$tgl	= $this->input->post('tgl');
 			$update = $this->Admin_Model->updatedatapilketos($tapel, $tgl);
-			if ($update = true) {
+			if ($update == true) {
 				// $updateuser	= $this->Admin_Model->updateuser($username);
 				$this->session->set_flashdata('update', 'Berhasil Menyimpan Data');
 				redirect('admin/index');
@@ -331,7 +331,7 @@
 			$jk			= $this->input->post('jk');
 			$kd_kelas	= $this->input->post('kd_kelas');
 			$update		= $this->Admin_Model->updatedpt($username, $nm_siswa, $jk, $kd_kelas);
-			if ($update = true) {
+			if ($update == true) {
 				$this->session->set_flashdata('info', 'Berhasil Mengupdate Data');
 				redirect('admin/editdpt/' . $username);
 			} else {
@@ -389,7 +389,7 @@
 			$nama			= $this->input->post('nama');
 			$visimisi		= $this->input->post('visimisi');
 			$update		= $this->Admin_Model->updatecalon($nisn, $no, $nama, $visimisi);
-			if ($update = true) {
+			if ($update == true) {
 				$this->session->set_flashdata('info', 'Berhasil MemperbaruiData');
 				redirect('admin/datacalon/');
 			} else {
