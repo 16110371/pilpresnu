@@ -23,6 +23,7 @@ class User extends CI_Controller
 		$username = $this->input->post('username', TRUE);
 		$password = $this->input->post('password', TRUE);
 
+		// Cek login dulu
 		$user = $this->User_Model->login($username, $password);
 
 		if (!$user) {
@@ -30,6 +31,18 @@ class User extends CI_Controller
 			redirect('user/login');
 		}
 
+		// Cek apakah sudah pernah voting (pakai method lama)
+		$valid = $this->User_Model->valid($username);
+
+		if ($valid == true) {
+			$this->session->set_flashdata(
+				'block',
+				'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi pengurus.'
+			);
+			redirect('user/login');
+		}
+
+		// Jika aman → login
 		$this->session->set_userdata([
 			'username' => $user->username,
 			'jk'       => $user->jk,
@@ -38,8 +51,6 @@ class User extends CI_Controller
 
 		redirect('user/index');
 	}
-
-
 
 	public function logout()
 	{
