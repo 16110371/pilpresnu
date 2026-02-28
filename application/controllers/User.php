@@ -45,6 +45,7 @@ class User extends CI_Controller
 		// Jika aman → login
 		$this->session->set_userdata([
 			'username' => $user->username,
+			'nama'     => $user->nm_siswa,
 			'jk'       => $user->jk,
 			'role'     => $user->role
 		]);

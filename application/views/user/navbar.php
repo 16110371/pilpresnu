@@ -1,25 +1,23 @@
 <?php if (!isset($no_visible_elements) || !$no_visible_elements) { ?>
-  <!-- topbar starts -->
-  <div class="navbar navbar-default" role="navigation">
-    <div class="navbar-inner" >
-      <button type="button" class="navbar-toggle pull-left animated flip" >
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="<?php echo base_url('/user'); ?>">
-        <span><b>E-PILPRES</b></span>
-      </a>
 
-      <!-- user dropdown starts -->
-      <div class="btn-group pull-right">
-        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <a href="<?php echo base_url(); ?>index.php/user/logout"><span class="glyphicon glyphicon-log-out"></span><b>&nbsp;&nbsp;KELUAR/LOGOUT</b></a>
-        </button>
+  <div class="navbar-modern">
+    <div class="nav-content">
+      <div class="logo-text">
+        <a href="<?= base_url('user'); ?>">
+          <img src="<?= base_url('asset/img/logo.png'); ?>" alt="Logo">
+        </a>
       </div>
-      <!-- user dropdown ends -->
+
+      <div class="nav-right">
+        <span class="username">
+          Selamat datang, <?= $this->session->userdata('nm_siswa'); ?>
+        </span>
+
+        <a href="<?= base_url('user/logout'); ?>" class="logout-btn">
+          Logout
+        </a>
+      </div>
     </div>
   </div>
-  <!-- topbar ends -->
+
 <?php } ?>

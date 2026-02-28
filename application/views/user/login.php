@@ -112,7 +112,7 @@
 			bottom: 10px;
 			width: 100%;
 			text-align: center;
-			font-size: 13px;
+			font-size: 11px;
 			color: white;
 		}
 
@@ -205,7 +205,7 @@
 
 	</div>
 	<div class="footer">
-		<?php echo $this->config->item('tahun_kegiatan') . " © " . $this->config->item('nama_aplikasi'); ?>
+		&copy; <?= date('Y'); ?> &nbsp;|&nbsp; Powered by <span style="font-weight: 600; color: #00c853"> TJKT</span>
 	</div>
 </body>
 
