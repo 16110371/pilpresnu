@@ -88,10 +88,10 @@ class User extends CI_Controller
 			}
 		}
 
-		$this->load->view('user/head');
-		$this->load->view('user/navbar');
+		// $this->load->view('user/head');
+		// $this->load->view('user/navbar');
 		$this->load->view('user/index', $data);
-		$this->load->view('user/footer');
+		// $this->load->view('user/footer');
 	}
 
 	public function vote()
@@ -130,10 +130,10 @@ class User extends CI_Controller
 		if (!$this->session->userdata('username')) {
 			redirect('user/login');
 		}
-		$this->load->view('user/head');
-		$this->load->view('user/navbar');
+		// $this->load->view('user/head');
+		// $this->load->view('user/navbar');
 		$this->load->view('user/viewlogout');
-		$this->load->view('user/footer');
+		// $this->load->view('user/footer');
 	}
 	public function validasilogout()
 	{
