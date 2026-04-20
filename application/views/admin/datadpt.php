@@ -1,3 +1,4 @@
+<?php echo "TEST MASUK VIEW"; ?>
 <div class="row">
     <div class="col-lg-8">
         <!-- <div class="box">
