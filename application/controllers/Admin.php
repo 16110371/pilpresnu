@@ -685,10 +685,22 @@
 		}
 		public function datadpt()
 		{
+			echo "1";
+			$data['idsekolah']  = $this->Admin_Model->idsekolah();
+			echo "2";
+			$data['datakelas']  = $this->Admin_Model->datakelas();
+			echo "3";
+			$data['datadpt']    = array();
+			$data['page']       = 0;
+			$data['pagination'] = '';
+			echo "4";
 			$this->load->view('admin/head');
-			echo "SEBELUM NAVBAR";
 			$this->load->view('admin/admin-navbar');
-			echo "SETELAH NAVBAR";
+			echo "5";
+			$this->load->view('admin/datadpt', $data);
+			echo "6";
+			$this->load->view('admin/footer', $data);
+			echo "7";
 			die();
 		}
 		function search()
