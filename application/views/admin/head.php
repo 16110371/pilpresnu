@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title><?php echo $this->config->item('nama_aplikasi') . " &copy; " . date('Y'); ?></title>
+    <title><?php echo config_item("nama_aplikasi"); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link id="bs-css" href="<?php echo base_url(); ?>asset/css/bootstrap-cerulean.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>asset/vendor/responsive-tables/responsive-tables.css" rel='stylesheet'>
