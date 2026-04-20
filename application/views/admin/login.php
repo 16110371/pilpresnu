@@ -17,10 +17,11 @@
                     Masukkan <i><b>username</b></i> dan <i><b>password</b></i> dengan benar
                     <br>Perhatikan penulisan <i><b>angka</b></i> dan <i><b>huruf-nya!</b></i>
                 </div>
-                <?php if ($this->session->flashdata('failed')) { ?>
+                <?php $CI = &get_instance();
+                if ($CI->session->flashdata('failed')) { ?>
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <?php echo $this->session->flashdata('failed'); ?>
+                        <?php echo $CI->session->flashdata('failed'); ?>
                     </div>
                 <?php } ?>
                 <?php
