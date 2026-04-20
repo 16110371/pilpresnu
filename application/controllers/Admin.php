@@ -685,22 +685,17 @@
 		}
 		public function datadpt()
 		{
-			echo "1";
 			$data['idsekolah']  = $this->Admin_Model->idsekolah();
-			echo "2";
 			$data['datakelas']  = $this->Admin_Model->datakelas();
-			echo "3";
 			$data['datadpt']    = array();
 			$data['page']       = 0;
 			$data['pagination'] = '';
-			echo "4";
 			$this->load->view('admin/head');
 			$this->load->view('admin/admin-navbar');
-			echo "5";
 			$this->load->view('admin/datadpt', $data);
-			echo "6";
+			echo "SEBELUM FOOTER";
 			$this->load->view('admin/footer', $data);
-			echo "7";
+			echo "SETELAH FOOTER";
 			die();
 		}
 		function search()
