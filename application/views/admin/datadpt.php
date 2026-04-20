@@ -68,16 +68,17 @@
                     <h2> TAMBAH DARTAR PEMILIH TETAP (DPT) </h2>
                 </div>
                 <div class="box-content">
-                    <?php if ($this->session->flashdata('info')) { ?>
+                    <?php $CI = &get_instance();
+                    if ($CI->session->flashdata('info')) { ?>
                         <div class="alert alert-success alert-dismissible">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <?php echo $this->session->flashdata('info'); ?>
+                            <?php echo $CI->session->flashdata('info'); ?>
                         </div>
                     <?php } ?>
-                    <?php if ($this->session->flashdata('failed')) { ?>
+                    <?php if ($CI->session->flashdata('failed')) { ?>
                         <div class="alert alert-danger alert-dismissible">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <?php echo $this->session->flashdata('failed'); ?>
+                            <?php echo $CI->session->flashdata('failed'); ?>
                         </div>
                     <?php } ?>
                     <?php
