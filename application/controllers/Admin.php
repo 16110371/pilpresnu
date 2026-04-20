@@ -685,18 +685,8 @@
 		}
 		public function datadpt()
 		{
-			if (!$this->session->userdata('username')) {
-				redirect('admin/login');
-			}
-			$data['idsekolah']  = $this->Admin_Model->idsekolah();
-			$data['datakelas']  = $this->Admin_Model->datakelas();
-			$data['datadpt']    = array();
-			$data['page']       = 0;
-			$data['pagination'] = '';
-			$this->load->view('admin/head');
-			$this->load->view('admin/admin-navbar');
-			$this->load->view('admin/datadpt', $data);
-			$this->load->view('admin/footer', $data);
+			echo "TEST CONTROLLER OK";
+			die();
 		}
 		function search()
 		{
