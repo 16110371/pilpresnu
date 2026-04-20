@@ -685,9 +685,10 @@
 		}
 		public function datadpt()
 		{
-			echo "SEBELUM HEAD";
 			$this->load->view('admin/head');
-			echo "SETELAH HEAD";
+			echo "SEBELUM NAVBAR";
+			$this->load->view('admin/admin-navbar');
+			echo "SETELAH NAVBAR";
 			die();
 		}
 		function search()
