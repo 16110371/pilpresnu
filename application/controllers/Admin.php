@@ -685,18 +685,49 @@
 		}
 		public function datadpt()
 		{
-			$data['idsekolah']  = $this->Admin_Model->idsekolah();
-			$data['datakelas']  = $this->Admin_Model->datakelas();
-			$data['datadpt']    = array();
-			$data['page']       = 0;
-			$data['pagination'] = '';
+			if (!$this->session->userdata('username')) {
+				redirect('admin/login');
+			}
+
+			//pagination settings
+			$config['base_url'] = site_url('admin/datadpt');
+			$config['total_rows'] = $this->db->count_all('tb_siswa');
+			$config['per_page'] = "20";
+			$config["uri_segment"] = 3;
+			$choice = $config["total_rows"] / $config["per_page"];
+			$config["num_links"] = floor($choice);
+
+			// integrate bootstrap pagination
+			$config['first_link']       = 'Pertama';
+			$config['last_link']        = 'Terakhir';
+			$config['next_link']        = '&raquo;';
+			$config['prev_link']        = '&laquo;';
+			$config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination pagination-sm justify-content-center">';
+			$config['full_tag_close']   = '</ul></nav></div>';
+			$config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+			$config['num_tag_close']    = '</span></li>';
+			$config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+			$config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+			$config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+			$config['next_tagl_close']  = '<span aria-hidden="true">&laquo;</span></span></li>';
+			$config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+			$config['prev_tagl_close']  = '</span>&laquo;</li>';
+			$config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+			$config['first_tagl_close'] = '</span></li>';
+			$config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+			$config['last_tagl_close']  = '</span></li>';
+			$this->pagination->initialize($config);
+			$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+			// get datadpt
+			$data['idsekolah']	= $this->Admin_Model->idsekolah();
+			$data['datakelas']	= $this->Admin_Model->datakelas();
+			$data['datadpt'] = $this->Admin_Model->datadpt($config["per_page"], $data['page'], NULL);
+			$data['pagination'] = $this->pagination->create_links();
+			// load view
 			$this->load->view('admin/head');
 			$this->load->view('admin/admin-navbar');
 			$this->load->view('admin/datadpt', $data);
-			echo "SEBELUM FOOTER";
 			$this->load->view('admin/footer', $data);
-			echo "SETELAH FOOTER";
-			die();
 		}
 		function search()
 		{
