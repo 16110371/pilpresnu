@@ -1,4 +1,10 @@
-<?php echo "TEST MASUK VIEW"; ?>
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+var_dump($datadpt);
+var_dump($datakelas);
+die("DEBUG STOP");
+?>
 <div class="row">
     <div class="col-lg-8">
         <!-- <div class="box">
