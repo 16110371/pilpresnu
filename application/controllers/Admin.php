@@ -692,7 +692,7 @@
 			//pagination settings
 			$config['base_url'] = site_url('admin/datadpt');
 			$config['total_rows'] = $this->db->count_all('tb_siswa');
-			$config['per_page'] = "20";
+			$config['per_page'] = 20;
 			$config["uri_segment"] = 3;
 			$choice = $config["total_rows"] / $config["per_page"];
 			$config["num_links"] = floor($choice);
@@ -768,7 +768,8 @@
 
 			$data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 			// get datadpt list
-			$data['idsekolah']	= $this->Admin_Model->idsekolah();
+			$data['datakelas'] = $this->Admin_Model->datakelas();
+			$data['idsekolah'] = $this->Admin_Model->idsekolah();
 			$data['datadpt'] = $this->Admin_Model->datadpt($config['per_page'], $data['page'], $search);
 			$data['pagination'] = $this->pagination->create_links();
 
