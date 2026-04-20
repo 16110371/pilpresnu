@@ -685,7 +685,9 @@
 		}
 		public function datadpt()
 		{
-			echo "TEST CONTROLLER OK";
+			echo "SEBELUM HEAD";
+			$this->load->view('admin/head');
+			echo "SETELAH HEAD";
 			die();
 		}
 		function search()
