@@ -580,7 +580,7 @@
 </head>
 
 <body>
-
+	<?php $CI = &get_instance(); ?>
 	<!-- NAVBAR -->
 	<nav class="navbar-modern">
 		<div class="nav-content">
@@ -589,7 +589,7 @@
 				<img src="<?= base_url(); ?>asset/img/logo.png" alt="Logo" style="height: 40px; width: auto;">
 			</div>
 			<div class="nav-right">
-				<span class="username">Selamat Datang, <?= $this->session->userdata('nama'); ?></span>
+				<span class="username">Selamat Datang, <?= $CI->session->userdata('nama'); ?></span>
 				<a href="<?= base_url('user/logout'); ?>" class="logout-btn">Logout</a>
 			</div>
 		</div>
