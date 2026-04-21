@@ -51,6 +51,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 $route['default_controller'] = 'User';
 $route['admin'] = 'Admin';
+$route['import/siswa'] = 'import/siswa';
+$route['import/download_template'] = 'import/download_template';
 $route['(:any)'] = 'User/$1';
 $route['(:any)'] = 'Admin/$1';
 // $route['(:any)'] = 'import/$1';
