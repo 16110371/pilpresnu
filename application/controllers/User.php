@@ -37,7 +37,7 @@ class User extends CI_Controller
 		if ($valid == true) {
 			$this->session->set_flashdata(
 				'block',
-				'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi pengurus.'
+				'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi panitia.'
 			);
 			redirect('user/login');
 		}

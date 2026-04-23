@@ -15,7 +15,7 @@ foreach ($idsekolah as $load) {
         <b>
             <p class="col-md-4 col-sm-6 col-xs-6 copyright">&copy; <?php echo date('Y') ?>
                 <a href="#" target="_blank">
-                    <?php echo $load['nm_sekolah']; ?>
+                    IPNU IPPNU KSW
                 </a>
             </p>
         </b>
