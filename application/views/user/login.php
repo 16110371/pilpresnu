@@ -265,7 +265,7 @@
 				<?php echo $CI->session->flashdata('block'); ?>
 			</div>
 		<?php } ?>
-
+		<?php echo form_open('user/loginvalidation'); ?>
 		<div class="input-group">
 			<i class="fas fa-user"></i>
 			<input type="text" name="username" placeholder="Username" required>
