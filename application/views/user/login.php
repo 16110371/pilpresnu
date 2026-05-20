@@ -252,8 +252,6 @@
 		<h2 class="login-title">E-PILPRES</h2>
 		<p class="subtitle">IPNU &bull; IPPNU</p>
 
-
-
 		<?php if ($CI->session->flashdata('failed')) { ?>
 			<div class="alert-danger">
 				<i class="fas fa-circle-exclamation"></i>
