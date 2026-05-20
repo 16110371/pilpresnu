@@ -241,7 +241,7 @@
 </head>
 
 <body>
-	<!-- <?php $CI = &get_instance(); ?> -->
+	<?php $CI = &get_instance(); ?>
 
 	<div class="login-card">
 
@@ -252,7 +252,7 @@
 		<h2 class="login-title">E-PILPRES</h2>
 		<p class="subtitle">IPNU &bull; IPPNU</p>
 
-		<?php $CI = &get_instance(); ?>
+
 
 		<?php if ($CI->session->flashdata('failed')) { ?>
 			<div class="alert-danger">
