@@ -28,6 +28,7 @@ class User extends CI_Controller
 
 		if (!$user) {
 			$this->session->set_flashdata('failed', 'Username atau Password Salah');
+			$this->session->sess_write();
 			redirect('user/login');
 		}
 
@@ -39,6 +40,7 @@ class User extends CI_Controller
 				'block',
 				'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi panitia.'
 			);
+			$this->session->sess_write();
 			redirect('user/login');
 		}
 
