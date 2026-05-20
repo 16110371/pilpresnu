@@ -58,7 +58,6 @@
 			z-index: 0;
 		}
 
-		/* ===== CARD ===== */
 		.login-card {
 			position: relative;
 			z-index: 1;
@@ -86,7 +85,6 @@
 			}
 		}
 
-		/* ===== LOGO ===== */
 		.logo-container {
 			margin-bottom: 20px;
 		}
@@ -96,7 +94,6 @@
 			height: auto;
 		}
 
-		/* ===== TITLE ===== */
 		.login-title {
 			font-family: 'Poppins', sans-serif;
 			font-size: 26px;
@@ -115,7 +112,6 @@
 			margin-bottom: 30px;
 		}
 
-		/* ===== ALERT ===== */
 		.alert-danger,
 		.alert-block {
 			padding: 11px 16px;
@@ -155,7 +151,6 @@
 			}
 		}
 
-		/* ===== INPUT ===== */
 		.input-group {
 			position: relative;
 			margin-bottom: 14px;
@@ -194,7 +189,6 @@
 			background: rgba(255, 255, 255, 0.11);
 		}
 
-		/* ===== BUTTON ===== */
 		.login-btn {
 			width: 100%;
 			padding: 13px;
@@ -222,7 +216,6 @@
 			transform: translateY(0);
 		}
 
-		/* ===== FOOTER ===== */
 		.footer {
 			position: fixed;
 			bottom: 12px;
@@ -230,10 +223,7 @@
 			right: 0;
 			z-index: 1;
 			font-size: 11px;
-
 			color: white;
-			/* letter-spacing: 1.5px;
-			text-transform: uppercase; */
 			text-align: center;
 		}
 
@@ -242,7 +232,6 @@
 			font-weight: 600;
 		}
 
-		/* ===== RESPONSIVE ===== */
 		@media (max-width: 480px) {
 			.login-card {
 				padding: 36px 24px;
@@ -252,6 +241,7 @@
 </head>
 
 <body>
+	<?php $CI = &get_instance(); ?>
 
 	<div class="login-card">
 
@@ -262,17 +252,17 @@
 		<h2 class="login-title">E-PILPRES</h2>
 		<p class="subtitle">IPNU &bull; IPPNU</p>
 
-		<?php if ($this->session->flashdata('failed')) { ?>
+		<?php if ($CI->session->flashdata('failed')) { ?>
 			<div class="alert-danger">
 				<i class="fas fa-circle-exclamation"></i>
-				<?php echo $this->session->flashdata('failed'); ?>
+				<?php echo $CI->session->flashdata('failed'); ?>
 			</div>
 		<?php } ?>
 
-		<?php if ($this->session->flashdata('block')) { ?>
+		<?php if ($CI->session->flashdata('block')) { ?>
 			<div class="alert-block">
 				<i class="fas fa-ban"></i>
-				<?php echo $this->session->flashdata('block'); ?>
+				<?php echo $CI->session->flashdata('block'); ?>
 			</div>
 		<?php } ?>
 
