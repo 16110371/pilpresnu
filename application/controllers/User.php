@@ -23,22 +23,22 @@ class User extends CI_Controller
 		$username = $this->input->post('username', TRUE);
 		$password = $this->input->post('password', TRUE);
 
-		// Cek login dulu
 		$user = $this->User_Model->login($username, $password);
 
 		if (!$user) {
-			$this->session->set_userdata('failed', 'Username atau Password Salah');
+			$this->session->set_flashdata('failed', 'Username atau Password Salah');
 			redirect('user/login');
 			return;
 		}
+
+		$valid = $this->User_Model->valid($username);
 
 		if ($valid == true) {
-			$this->session->set_userdata('block', 'Anda sudah pernah melakukan voting...');
+			$this->session->set_flashdata('block', 'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi panitia.');
 			redirect('user/login');
 			return;
 		}
 
-		// Jika aman → login
 		$this->session->set_userdata([
 			'username' => $user->username,
 			'nama'     => $user->nm_siswa,

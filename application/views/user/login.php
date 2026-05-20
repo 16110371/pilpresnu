@@ -254,19 +254,17 @@
 
 		<?php $CI = &get_instance(); ?>
 
-		<?php if ($CI->session->userdata('failed')) { ?>
+		<?php if ($CI->session->flashdata('failed')) { ?>
 			<div class="alert-danger">
 				<i class="fas fa-circle-exclamation"></i>
-				<?php echo $CI->session->userdata('failed'); ?>
-				<?php $CI->session->unset_userdata('failed'); ?>
+				<?php echo $CI->session->flashdata('failed'); ?>
 			</div>
 		<?php } ?>
 
-		<?php if ($CI->session->userdata('block')) { ?>
+		<?php if ($CI->session->flashdata('block')) { ?>
 			<div class="alert-block">
 				<i class="fas fa-ban"></i>
-				<?php echo $CI->session->userdata('block'); ?>
-				<?php $CI->session->unset_userdata('block'); ?>
+				<?php echo $CI->session->flashdata('block'); ?>
 			</div>
 		<?php } ?>
 
