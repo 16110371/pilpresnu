@@ -241,7 +241,7 @@
 </head>
 
 <body>
-	<?php $CI = &get_instance(); ?>
+
 
 	<div class="login-card">
 
@@ -252,17 +252,21 @@
 		<h2 class="login-title">E-PILPRES</h2>
 		<p class="subtitle">IPNU &bull; IPPNU</p>
 
-		<?php if ($CI->session->flashdata('failed')) { ?>
+		<?php $CI = &get_instance(); ?>
+
+		<?php if ($CI->session->userdata('msg_failed')) { ?>
 			<div class="alert-danger">
 				<i class="fas fa-circle-exclamation"></i>
-				<?php echo $CI->session->flashdata('failed'); ?>
+				<?php echo $CI->session->userdata('msg_failed');
+				$CI->session->unset_userdata('msg_failed'); ?>
 			</div>
 		<?php } ?>
 
-		<?php if ($CI->session->flashdata('block')) { ?>
+		<?php if ($CI->session->userdata('msg_block')) { ?>
 			<div class="alert-block">
 				<i class="fas fa-ban"></i>
-				<?php echo $CI->session->flashdata('block'); ?>
+				<?php echo $CI->session->userdata('msg_block');
+				$CI->session->unset_userdata('msg_block'); ?>
 			</div>
 		<?php } ?>
 		<?php echo form_open('user/loginvalidation'); ?>

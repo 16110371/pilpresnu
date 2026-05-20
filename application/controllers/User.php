@@ -26,7 +26,7 @@ class User extends CI_Controller
 		$user = $this->User_Model->login($username, $password);
 
 		if (!$user) {
-			$this->session->set_flashdata('failed', 'Username atau Password Salah');
+			$this->session->set_userdata('msg_failed', 'Username atau Password Salah');
 			redirect('user/login');
 			return;
 		}
@@ -34,7 +34,7 @@ class User extends CI_Controller
 		$valid = $this->User_Model->valid($username);
 
 		if ($valid == true) {
-			$this->session->set_flashdata('block', 'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi panitia.');
+			$this->session->set_userdata('msg_block', 'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi panitia.');
 			redirect('user/login');
 			return;
 		}
