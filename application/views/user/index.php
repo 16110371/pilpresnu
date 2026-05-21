@@ -626,11 +626,12 @@
 
 						<h3><?= $loaddata['nama']; ?></h3>
 
-						<?php if (!empty(trim($loaddata['visimisi']))): ?>
+						<?php if (!empty(trim($loaddata['visi'])) || !empty(trim($loaddata['misi']))): ?>
 							<button class="visimisi-btn"
 								data-no="<?= $nomor; ?>"
 								data-nama="<?= htmlspecialchars($loaddata['nama'], ENT_QUOTES); ?>"
-								data-visimisi="<?= htmlspecialchars($loaddata['visimisi'], ENT_QUOTES); ?>"
+								data-visi="<?= htmlspecialchars($loaddata['visi'], ENT_QUOTES); ?>"
+								data-misi="<?= htmlspecialchars($loaddata['misi'], ENT_QUOTES); ?>"
 								onclick="openModal(this)">
 								Lihat Visi &amp; Misi
 							</button>
@@ -675,7 +676,18 @@
 			</div>
 			<div class="modal-divider"></div>
 			<div class="modal-label">Visi &amp; Misi</div>
-			<div class="modal-content" id="modalContent"></div>
+
+			<div class="modal-content" id="modalContent">
+				<div class="visi-wrapper" style="margin-bottom: 25px;">
+					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 1px; margin-bottom: 8px;">VISI</div>
+					<div id="textVisi" style="line-height: 1.6;"></div>
+				</div>
+
+				<div class="misi-wrapper">
+					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 1px; margin-bottom: 8px;">MISI</div>
+					<div id="textMisi" style="line-height: 1.6;"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -683,16 +695,20 @@
 		function openModal(btn) {
 			const no = btn.getAttribute('data-no');
 			const nama = btn.getAttribute('data-nama');
-			const visi = btn.getAttribute('data-visi');
-			const misi = btn.getAttribute('data-misi');
+			const visi = btn.getAttribute('data-visi') || '';
+			const misi = btn.getAttribute('data-misi') || '';
 
 			document.getElementById('modalNumber').textContent = no;
 			document.getElementById('modalName').textContent = nama;
-			const formatted = visi
-				.replace(/\n/g, '<br>')
-				.replace(/(Visi\s*:)/gi, '<strong>$1</strong>')
-				.replace(/(Misi\s*:)/gi, '<strong>$1</strong>');
-			document.getElementById('modalContent').innerHTML = formatted;
+
+			// Memformat baris baru (\n) dari database agar menjadi enter (<br>) di HTML
+			const formattedVisi = visi.replace(/\n/g, '<br>');
+			const formattedMisi = misi.replace(/\n/g, '<br>');
+
+			// Memasukkan data ke tempatnya masing-masing
+			document.getElementById('textVisi').innerHTML = formattedVisi;
+			document.getElementById('textMisi').innerHTML = formattedMisi;
+
 			document.getElementById('modalOverlay').classList.add('active');
 		}
 
