@@ -99,14 +99,15 @@ class Admin_Model extends CI_Model
 		);
 		$this->db->insert('tb_kelas', $data);
 	}
-	public function tambahcalon($nisn, $no, $nama, $jk, $visimisi, $photo)
+	public function tambahcalon($nisn, $no, $nama, $jk, $visi, $misi, $photo)
 	{
 		$data		= array(
 			'nisn'	=> $nisn,
 			'no'	=> $no,
 			'nama'	=> $nama,
 			'jk'	=> $jk,
-			'visimisi'	=> $visimisi,
+			'visi'	=> $visi,
+			'misi' => $misi,
 			'photo' => $photo
 		);
 		$this->db->insert('tb_pilihan', $data);
@@ -116,9 +117,9 @@ class Admin_Model extends CI_Model
 		$hapus = $this->db->query("DELETE FROM tb_kelas WHERE kd_kelas='$kd_kelas'");
 		return $hapus;
 	}
-	public function updatecalon($nisn, $no, $nama, $visimisi)
+	public function updatecalon($nisn, $no, $nama, $visi, $misi)
 	{
-		$save		= $this->db->query("UPDATE tb_pilihan SET no='$no', nama='$nama', visimisi='$visimisi' WHERE nisn='$nisn'");
+		$save		= $this->db->query("UPDATE tb_pilihan SET no='$no', nama='$nama', visi='$visi', misi='$misi' WHERE nisn='$nisn'");
 		return $save;
 	}
 	public function hapuscalon($nisn)

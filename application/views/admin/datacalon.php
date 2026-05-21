@@ -53,11 +53,20 @@
 					);
 					echo form_input($form_attribute);
 					?>
-					<label class="label-control"> Visi Misi</label>
+					<label class="label-control"> Visi</label>
 					<?php
 					$form_attribute	= array(
 						'type'		=> 'text',
-						'name'		=> 'visimisi',
+						'name'		=> 'visi',
+						'class'		=> 'form-control'
+					);
+					echo form_textarea($form_attribute);
+					?>
+					<label class="label-control">Misi</label>
+					<?php
+					$form_attribute	= array(
+						'type'		=> 'text',
+						'name'		=> 'misi',
 						'class'		=> 'form-control'
 					);
 					echo form_textarea($form_attribute);
@@ -108,7 +117,8 @@
 							<tr>
 								<th class="text-center">No</th>
 								<th class="text-center">Nama Calon</th>
-								<th class="text-center">Visi Misi</th>
+								<th class="text-center">Visi</th>
+								<th class="text-center">Misi</th>
 								<th class="text-center">Jenis Kelamin</th>
 								<th class="text-center">Photo Calon</th>
 								<th class="text-center" width="150">Aksi</th>
@@ -122,7 +132,8 @@
 								<tr>
 									<td class="text-center"><?php echo $loaddata['no']; ?></td>
 									<td><?php echo $loaddata['nama']; ?></td>
-									<td><?php echo $loaddata['visimisi']; ?></td>
+									<td><?php echo $loaddata['visi']; ?></td>
+									<td><?php echo $loaddata['misi']; ?></td>
 									<td class="text-center"><?php echo $loaddata['jk']; ?></td>
 									<td class="text-center"><img width="50" src="<?php echo base_url(); ?>/asset/img/<?php echo $loaddata['photo']; ?>"></td>
 									<td>

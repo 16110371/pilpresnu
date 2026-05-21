@@ -359,7 +359,8 @@
 			$no				= $this->input->post('no');
 			$nama			= $this->input->post('nama');
 			$jk				= $this->input->post('jk');
-			$visimisi		= $this->input->post('visimisi');
+			$visi		= $this->input->post('visi');
+			$misi			= $this->input->post('misi');
 			if (!in_array($jk, ['L', 'P'])) {
 				$this->session->set_flashdata('failed', 'Jenis kelamin calon wajib dipilih');
 				redirect('admin/datacalon');
@@ -375,7 +376,7 @@
 				$img 				= $_FILES['photo']['name'];
 				$img_ext			= pathinfo($img, PATHINFO_EXTENSION);
 				$photo				= $config['file_name'] . "." . $img_ext;
-				$this->Admin_Model->tambahcalon($nisn, $no, $nama, $jk, $visimisi, $photo);
+				$this->Admin_Model->tambahcalon($nisn, $no, $nama, $jk, $visi, $misi, $photo);
 				redirect('admin/datacalon');
 			} else {
 				$this->session->set_flashdata('failed', 'Gagal Menambahkan Data');
@@ -387,8 +388,9 @@
 			$nisn			= $this->input->post('nisn');
 			$no				= $this->input->post('no');
 			$nama			= $this->input->post('nama');
-			$visimisi		= $this->input->post('visimisi');
-			$update		= $this->Admin_Model->updatecalon($nisn, $no, $nama, $visimisi);
+			$visi		= $this->input->post('visi');
+			$misi			= $this->input->post('misi');
+			$update		= $this->Admin_Model->updatecalon($nisn, $no, $nama, $visi, $misi);
 			if ($update == true) {
 				$this->session->set_flashdata('info', 'Berhasil MemperbaruiData');
 				redirect('admin/datacalon/');
