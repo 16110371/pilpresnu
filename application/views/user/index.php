@@ -683,17 +683,22 @@
 					<div id="textVisi" style="line-height: 1.6;"></div>
 				</div>
 
-				<div class="misi-wrapper">
-					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 2px; margin-bottom: 12px; ">MISI</div>
+				<div class="misi-wrapper" style="margin-top: 20px;">
+					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 2px; margin-bottom: 12px;">MISI</div>
 
-					<div id="textMisi" style="
-        line-height: 1.8; 
-        text-align: left; 
-        display: inline-block; 
-        max-width: 90%; 
-        padding-left: 25px; 
-        text-indent: -25px;
-    "></div>
+					<div style="display: flex; justify-content: center;">
+
+						<div id="textMisi" style="
+            line-height: 1.8; 
+            text-align: left; 
+            max-width: 85%; /* Mengatur agar tidak terlalu mentok ke tepi modal */
+            display: grid;
+            grid-template-columns: auto 1fr;
+            column-gap: 8px; /* Jarak antara nomor '1.' dan teksnya */
+            row-gap: 12px;   /* Jarak antar poin nomor 1 dan nomor 2 */
+        "></div>
+
+					</div>
 				</div>
 			</div>
 		</div>
