@@ -679,12 +679,12 @@
 
 			<div class="modal-content" id="modalContent">
 				<div class="visi-wrapper" style="margin-bottom: 25px;">
-					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 1px; margin-bottom: 8px;">VISI</div>
-					<div id="textVisi" style="line-height: 1.6;"></div>
+					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 1px; margin-bottom: 8px; text-align: center;">VISI</div>
+					<div id="textVisi" style="line-height: 1.6; text-align: center;"></div>
 				</div>
 
 				<div class="misi-wrapper" style="margin-top: 20px;">
-					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 2px; margin-bottom: 12px;">MISI</div>
+					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 2px; margin-bottom: 12px; text-align: center;">MISI</div>
 
 					<div style="display: flex; justify-content: center;">
 
