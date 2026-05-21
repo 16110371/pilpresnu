@@ -675,15 +675,15 @@
 				<div class="modal-name" id="modalName"></div>
 			</div>
 			<div class="modal-divider"></div>
-			<div class="modal-label">Visi &amp; Misi</div>
+			<!-- <div class="modal-label">Visi &amp; Misi</div> -->
 
 			<div class="modal-content" id="modalContent">
-				<div class="visi-wrapper" style="margin-bottom: 25px;">
+				<div class="visi-wrapper" style="margin-bottom: 25px; text-align:center">
 					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 1px; margin-bottom: 8px;">VISI</div>
 					<div id="textVisi" style="line-height: 1.6;"></div>
 				</div>
 
-				<div class="misi-wrapper">
+				<div class="misi-wrapper" style="text-align:center">
 					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 1px; margin-bottom: 8px;">MISI</div>
 					<div id="textMisi" style="line-height: 1.6;"></div>
 				</div>

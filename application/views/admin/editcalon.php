@@ -60,13 +60,23 @@ foreach ($datacalon as $loaddata) {
 					);
 					echo form_input($form_attribute);
 					?>
-					<label class="label-control"> Visi Misi</label>
+					<label class="label-control"> Visi </label>
 					<?php
 					$form_attribute	= array(
 						'type'		=> 'text',
-						'name'		=> 'visimisi',
+						'name'		=> 'visi',
 						'class'		=> 'form-control',
-						'value'		=> $loaddata['visimisi']
+						'value'		=> $loaddata['visi']
+					);
+					echo form_textarea($form_attribute);
+					?>
+					<label class="label-control"> Misi</label>
+					<?php
+					$form_attribute	= array(
+						'type'		=> 'text',
+						'name'		=> 'misi',
+						'class'		=> 'form-control',
+						'value'		=> $loaddata['misi']
 					);
 					echo form_textarea($form_attribute);
 					?>
