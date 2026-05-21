@@ -683,11 +683,12 @@
 		function openModal(btn) {
 			const no = btn.getAttribute('data-no');
 			const nama = btn.getAttribute('data-nama');
-			const visimisi = btn.getAttribute('data-visimisi');
+			const visi = btn.getAttribute('data-visi');
+			const misi = btn.getAttribute('data-misi');
 
 			document.getElementById('modalNumber').textContent = no;
 			document.getElementById('modalName').textContent = nama;
-			const formatted = visimisi
+			const formatted = visi
 				.replace(/\n/g, '<br>')
 				.replace(/(Visi\s*:)/gi, '<strong>$1</strong>')
 				.replace(/(Misi\s*:)/gi, '<strong>$1</strong>');
