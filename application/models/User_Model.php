@@ -12,40 +12,36 @@ class User_Model extends CI_Model
 
 	public function valid($username)
 	{
-		$condition	= "username=" . "'" . $username . "'";
-		$select		= array('username');
-		$this->db->select($select);
+		$condition = "username=" . "'" . $username . "'";
+		$this->db->select('username');
 		$this->db->from('tb_pilih');
 		$this->db->where($condition);
-		$login 	= $this->db->get();
-		if ($login->num_rows() > 0) {
-			return true;
-		} else {
-			return false;
-		}
+
+		$login = $this->db->get();
+
+		return $login->num_rows() > 0;
 	}
 	public function datamodel()
 	{
 		$load	= $this->db->query("SELECT * FROM tb_pilihan ORDER BY no ASC");
 		return $load->result_Array();
 	}
-	public function vote($nisn, $username, $jk_calon)
+	public function vote($nisn, $username, $jk_calon, $kategori)
 	{
-		// cek apakah user sudah vote di JK tersebut
 		$cek = $this->db
 			->where('username', $username)
-			->where('jk_pilihan', $jk_calon)
+			->where('kategori', $kategori)
 			->get('tb_pilih');
 
-		if ($cek === false || $cek->num_rows() > 0) {
+		if ($cek->num_rows() > 0) {
 			return false;
 		}
 
-		// simpan vote
 		$this->db->insert('tb_pilih', [
 			'nisn'        => $nisn,
 			'username'    => $username,
-			'jk_pilihan'  => $jk_calon
+			'jk_pilihan'  => $jk_calon,
+			'kategori'    => $kategori
 		]);
 
 		return true;
@@ -79,25 +75,72 @@ class User_Model extends CI_Model
 	public function guru_selesai_vote($username)
 	{
 		$query = $this->db
-			->select('jk_pilihan')
+			->select('kategori')
 			->where('username', $username)
-			->group_by('jk_pilihan')
+			->group_by('kategori')
 			->get('tb_pilih');
 
-		if ($query === false) {
-			return false;
-		}
-
-		// guru dianggap selesai jika sudah memilih L dan P
-		return $query->num_rows() >= 2;
+		return $query->num_rows() >= 5;
 	}
 
-	public function jk_sudah_dipilih($username)
+	// public function jk_sudah_dipilih($username)
+	// {
+	// 	return $this->db
+	// 		->select('jk_pilihan')
+	// 		->where('username', $username)
+	// 		->get('tb_pilih')
+	// 		->result_array();
+	// }
+	public function get_calon($nisn)
 	{
 		return $this->db
-			->select('jk_pilihan')
+			->where('nisn', $nisn)
+			->get('tb_pilihan')
+			->row();
+	}
+	public function datacalon_by_kategori($kategori)
+	{
+		return $this->db
+			->where('kategori', $kategori)
+			->order_by('no', 'ASC')
+			->get('tb_pilihan')
+			->result_array();
+	}
+	public function kategori_sudah_dipilih($username)
+	{
+		return $this->db
+			->select('kategori')
 			->where('username', $username)
 			->get('tb_pilih')
 			->result_array();
+	}
+
+	public function jumlah_vote($username)
+	{
+		return $this->db
+			->where('username', $username)
+			->count_all_results('tb_pilih');
+	}
+
+	public function selesai_vote($username, $jk, $role)
+	{
+		$jumlah = $this->jumlah_vote($username);
+
+		// DPP
+		if ($role == 'dpp') {
+			return $jumlah >= 5;
+		}
+
+		// Putra
+		if ($jk == 'L') {
+			return $jumlah >= 2;
+		}
+
+		// Putri
+		if ($jk == 'P') {
+			return $jumlah >= 3;
+		}
+
+		return false;
 	}
 }

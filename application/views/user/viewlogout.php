@@ -18,13 +18,15 @@
 		}
 
 		:root {
-			--green-dark: #0d3b17;
-			--green-mid: #1b5e20;
-			--green-accent: #00c853;
-			--green-hover: #00a145;
-			--glass-bg: rgba(255, 255, 255, 0.08);
-			--glass-border: rgba(255, 255, 255, 0.15);
-			--text-muted: #b2dfb6;
+			--blue-dark: #172554;
+			--blue-mid: #1E3A8A;
+			--blue-accent: #3B82F6;
+			--blue-hover: #2563EB;
+
+			--glass-bg: rgba(255, 255, 255, .08);
+			--glass-border: rgba(255, 255, 255, .15);
+
+			--text-muted: #BFDBFE;
 		}
 
 		html,
@@ -34,7 +36,11 @@
 
 		body {
 			font-family: 'Poppins', sans-serif;
-			background: linear-gradient(145deg, #0d3b17 0%, #1b5e20 40%, #2e7d32 70%, #1a4a1e 100%);
+			background: linear-gradient(145deg,
+					#172554 0%,
+					#1E3A8A 40%,
+					#2563EB 75%,
+					#1E40AF 100%);
 			color: white;
 			display: flex;
 			align-items: center;
@@ -47,9 +53,8 @@
 			position: fixed;
 			inset: 0;
 			background-image:
-				radial-gradient(circle at 15% 85%, rgba(0, 200, 83, 0.12) 0%, transparent 40%),
-				radial-gradient(circle at 85% 20%, rgba(0, 200, 83, 0.08) 0%, transparent 35%),
-				radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.15) 0%, transparent 70%);
+				radial-gradient(circle at 15% 85%, rgba(59, 130, 246, .20) 0%, transparent 40%),
+				radial-gradient(circle at 85% 20%, rgba(96, 165, 250, .15) 0%, transparent 35%);
 			pointer-events: none;
 			z-index: 0;
 		}
@@ -85,12 +90,16 @@
 			width: 72px;
 			height: 72px;
 			border-radius: 50%;
-			background: linear-gradient(135deg, #00c853, #00a145);
+			background: linear-gradient(135deg,
+					#3B82F6,
+					#2563EB);
+
+			box-shadow:
+				0 8px 24px rgba(59, 130, 246, .4);
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			margin: 0 auto 24px;
-			box-shadow: 0 8px 24px rgba(0, 200, 83, 0.4);
 			font-size: 32px;
 			animation: pulse 2s ease-in-out infinite;
 		}
@@ -99,11 +108,11 @@
 
 			0%,
 			100% {
-				box-shadow: 0 8px 24px rgba(0, 200, 83, 0.4);
+				box-shadow: 0 8px 24px rgba(59, 130, 246, .4);
 			}
 
 			50% {
-				box-shadow: 0 8px 36px rgba(0, 200, 83, 0.7);
+				box-shadow: 0 8px 36px rgba(59, 130, 246, .7);
 			}
 		}
 
@@ -120,7 +129,7 @@
 		.subtitle {
 			font-size: 13px;
 			font-weight: 600;
-			color: var(--green-accent);
+			color: var(--blue-accent);
 			letter-spacing: 2px;
 			text-transform: uppercase;
 			margin-bottom: 20px;
@@ -151,7 +160,9 @@
 		.progress-bar {
 			height: 100%;
 			width: 0%;
-			background: linear-gradient(90deg, #00c853, #00e676);
+			background: linear-gradient(90deg,
+					#3B82F6,
+					#60A5FA);
 			border-radius: 99px;
 			animation: fill 2s linear forwards;
 		}
@@ -172,7 +183,7 @@
 		}
 
 		.footer span {
-			color: var(--green-accent);
+			color: var(--blue-accent);
 			font-weight: 600;
 		}
 

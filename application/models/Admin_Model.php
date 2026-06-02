@@ -99,16 +99,36 @@ class Admin_Model extends CI_Model
 		);
 		$this->db->insert('tb_kelas', $data);
 	}
-	public function tambahcalon($nisn, $no, $nama, $jk, $visimisi, $photo)
-	{
-		$data		= array(
-			'nisn'	=> $nisn,
-			'no'	=> $no,
-			'nama'	=> $nama,
-			'jk'	=> $jk,
-			'visimisi'	=> $visimisi,
-			'photo' => $photo
+	public function tambahcalon(
+		$nisn,
+		$no,
+		$nama,
+		$jk,
+		$kategori,
+		$visi,
+		$misi,
+		$tahun_khidmah,
+		$alamat,
+		$jenjang_pendidikan,
+		$jabatan_pondok,
+		$photo
+	) {
+
+		$data = array(
+			'nisn'                 => $nisn,
+			'no'                   => $no,
+			'nama'                 => $nama,
+			'jk'                   => $jk,
+			'kategori'             => $kategori,
+			'visi'                 => $visi,
+			'misi'                 => $misi,
+			'tahun_khidmah'        => $tahun_khidmah,
+			'alamat'               => $alamat,
+			'jenjang_pendidikan'   => $jenjang_pendidikan,
+			'jabatan_pondok'       => $jabatan_pondok,
+			'photo'                => $photo
 		);
+
 		$this->db->insert('tb_pilihan', $data);
 	}
 	public function hapuskelas($kd_kelas)
@@ -116,10 +136,12 @@ class Admin_Model extends CI_Model
 		$hapus = $this->db->query("DELETE FROM tb_kelas WHERE kd_kelas='$kd_kelas'");
 		return $hapus;
 	}
-	public function updatecalon($nisn, $no, $nama, $visimisi)
-	{
-		$save		= $this->db->query("UPDATE tb_pilihan SET no='$no', nama='$nama', visimisi='$visimisi' WHERE nisn='$nisn'");
-		return $save;
+	public function updatecalon(
+		$nisn,
+		$data
+	) {
+		$this->db->where('nisn', $nisn);
+		return $this->db->update('tb_pilihan', $data);
 	}
 	public function hapuscalon($nisn)
 	{

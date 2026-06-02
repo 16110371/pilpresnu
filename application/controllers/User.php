@@ -34,11 +34,27 @@ class User extends CI_Controller
 		// Cek apakah sudah pernah voting (pakai method lama)
 		$valid = $this->User_Model->valid($username);
 
-		if ($valid == true) {
+		// if ($valid == true) {
+		// 	$this->session->set_flashdata(
+		// 		'block',
+		// 		'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi pengurus.'
+		// 	);
+		// 	redirect('user/login');
+		// }
+
+		if (
+			$this->User_Model->selesai_vote(
+				$username,
+				$user->jk,
+				$user->role
+			)
+		) {
+
 			$this->session->set_flashdata(
 				'block',
 				'Anda sudah pernah melakukan voting. Akun Anda sekarang dinonaktifkan. Jika merasa belum pernah voting, silakan hubungi pengurus.'
 			);
+
 			redirect('user/login');
 		}
 
@@ -70,28 +86,93 @@ class User extends CI_Controller
 
 		$data['username'] = $username;
 
+		$sudah = $this->User_Model->kategori_sudah_dipilih($username);
+		$kategori_sudah = array_column($sudah, 'kategori');
+
+		$urutan = [];
+
+		/*
+	|--------------------------------------------------------------------------
+	| SISWA
+	|--------------------------------------------------------------------------
+	*/
 		if ($role == 'siswa') {
-			$data['datacalon'] = $this->User_Model->datacalon_by_jk($jk_user);
-		}
 
-		if ($role == 'dpp') {
+			// PUTRA
+			if ($jk_user == 'L') {
 
-			$sudah = $this->User_Model->jk_sudah_dipilih($username);
-			$jk_sudah = array_column($sudah, 'jk_pilihan');
+				$urutan = [
+					'kepala_pondok_putra_tepo',
+					'wakil_kepala_pondok_putra_tepo'
+				];
+			}
 
-			if (!in_array('L', $jk_sudah)) {
-				$data['datacalon'] = $this->User_Model->datacalon_by_jk('L');
-			} elseif (!in_array('P', $jk_sudah)) {
-				$data['datacalon'] = $this->User_Model->datacalon_by_jk('P');
-			} else {
-				redirect('user/viewlogout');
+			// PUTRI
+			elseif ($jk_user == 'P') {
+
+				$urutan = [
+					'kepala_pondok_putri_tepo',
+					'wakil_kepala_pondok_putri_tepo',
+					'wakil_kepala_pondok_putri_pagutan'
+				];
 			}
 		}
 
-		// $this->load->view('user/head');
-		// $this->load->view('user/navbar');
+		/*
+	|--------------------------------------------------------------------------
+	| DPP
+	|--------------------------------------------------------------------------
+	*/ elseif ($role == 'dpp') {
+
+			$urutan = [
+				'kepala_pondok_putra_tepo',
+				'wakil_kepala_pondok_putra_tepo',
+				'kepala_pondok_putri_tepo',
+				'wakil_kepala_pondok_putri_tepo',
+				'wakil_kepala_pondok_putri_pagutan'
+			];
+		}
+
+		/*
+	|--------------------------------------------------------------------------
+	| Cari kategori berikutnya yang belum dipilih
+	|--------------------------------------------------------------------------
+	*/
+		$kategori_aktif = null;
+
+		foreach ($urutan as $kategori) {
+
+			if (!in_array($kategori, $kategori_sudah)) {
+
+				$kategori_aktif = $kategori;
+				break;
+			}
+		}
+
+		/*
+	|--------------------------------------------------------------------------
+	| Semua kategori selesai
+	|--------------------------------------------------------------------------
+	*/
+		if (!$kategori_aktif) {
+			redirect('user/viewlogout');
+		}
+
+		/*
+	|--------------------------------------------------------------------------
+	| Load kandidat kategori aktif
+	|--------------------------------------------------------------------------
+	*/
+		$data['kategori'] = $kategori_aktif;
+
+		$data['judul'] = strtoupper(
+			str_replace('_', ' ', $kategori_aktif)
+		);
+
+		$data['datacalon'] = $this->User_Model
+			->datacalon_by_kategori($kategori_aktif);
+
 		$this->load->view('user/index', $data);
-		// $this->load->view('user/footer');
 	}
 
 	public function vote()
@@ -102,27 +183,23 @@ class User extends CI_Controller
 
 		$nisn     = $this->input->post('nisn');
 		$username = $this->session->userdata('username');
-		$role     = $this->session->userdata('role');
 
-		// ambil JK calon
-		$calon = $this->db->where('nisn', $nisn)
-			->get('tb_pilihan')
-			->row();
+		$calon = $this->User_Model->get_calon($nisn);
 
-		$this->User_Model->vote($nisn, $username, $calon->jk);
+		if (!$calon) {
+			redirect('user/index');
+		}
 
-		// tandai hadir 1x saja
+		$this->User_Model->vote(
+			$nisn,
+			$username,
+			$calon->jk,
+			$calon->kategori
+		);
+
 		$this->User_Model->hadir($username);
 
-		if ($role == 'dpp') {
-			if ($this->User_Model->guru_selesai_vote($username)) {
-				redirect('user/viewlogout');
-			} else {
-				redirect('user/index'); // tampil JK berikutnya
-			}
-		} else {
-			redirect('user/viewlogout');
-		}
+		redirect('user/index');
 	}
 
 	public function viewlogout()

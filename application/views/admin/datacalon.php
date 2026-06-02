@@ -53,15 +53,21 @@
 					);
 					echo form_input($form_attribute);
 					?>
-					<label class="label-control"> Visi Misi</label>
-					<?php
-					$form_attribute	= array(
-						'type'		=> 'text',
-						'name'		=> 'visimisi',
-						'class'		=> 'form-control'
-					);
-					echo form_textarea($form_attribute);
-					?>
+					<label class="label-control">Tahun Khidmah</label>
+					<input type="text"
+						name="tahun_khidmah"
+						class="form-control"
+						placeholder="Contoh: Angkatan MAZZA 2 (Pengurus tahun ke-3)">
+					<label class="label-control">Alamat</label>
+					<input type="text"
+						name="alamat"
+						class="form-control"
+						placeholder="Contoh: Candimulyo">
+					<label class="label-control">Jenjang Pendidikan</label>
+					<input type="text"
+						name="jenjang_pendidikan"
+						class="form-control"
+						placeholder="Contoh: Salaf">
 					<label class="label-control"> Jenis Kelamin Calon</label>
 					<?php
 					$options = array(
@@ -77,6 +83,28 @@
 						'class="form-control" required'
 					);
 					?>
+					<label class="label-control">Kategori Pemilihan</label>
+
+					<?php
+					$options = array(
+						'' => '-- Pilih Kategori --',
+
+						'kepala_pondok_putra_tepo'        => 'Kepala Pondok Putra Tepo',
+						'wakil_kepala_pondok_putra_tepo'  => 'Wakil Kepala Pondok Putra Tepo',
+
+						'kepala_pondok_putri_tepo'        => 'Kepala Pondok Putri Tepo',
+						'wakil_kepala_pondok_putri_tepo'  => 'Wakil Kepala Pondok Putri Tepo',
+
+						'wakil_kepala_pondok_putri_pagutan' => 'Wakil Kepala Pondok Putri Pagutan'
+					);
+
+					echo form_dropdown(
+						'kategori',
+						$options,
+						'',
+						'class="form-control" required'
+					);
+					?>
 					<label class="label-control"> Foto</label>
 					<?php
 					$form_attribute	= array(
@@ -86,6 +114,20 @@
 					);
 					echo form_input($form_attribute);
 					?>
+					<label class="label-control">Jabatan Pondok</label>
+
+					<textarea
+						name="jabatan_pondok"
+						class="form-control"
+						rows="5"
+						placeholder="2024/2025|Kebersihan
+2025/2026|Kebersihan"></textarea>
+
+					<small class="text-muted">
+						Format:
+						Tahun|Jabatan
+						Satu baris satu data
+					</small>
 					<br />
 					<button type="submit" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-floppy-saved"></span>&nbsp;&nbsp;SIMPAN DATA</button>
 					<!-- </div> -->
@@ -108,7 +150,9 @@
 							<tr>
 								<th class="text-center">No</th>
 								<th class="text-center">Nama Calon</th>
-								<th class="text-center">Visi Misi</th>
+								<th class="text-center">Tahun Khidmah</th>
+								<th class="text-center">Alamat</th>
+								<th class="text-center">Jenjang Pendidikan</th>
 								<th class="text-center">Jenis Kelamin</th>
 								<th class="text-center">Photo Calon</th>
 								<th class="text-center" width="150">Aksi</th>
@@ -122,7 +166,9 @@
 								<tr>
 									<td class="text-center"><?php echo $loaddata['no']; ?></td>
 									<td><?php echo $loaddata['nama']; ?></td>
-									<td><?php echo $loaddata['visimisi']; ?></td>
+									<td><?php echo $loaddata['tahun_khidmah']; ?></td>
+									<td><?php echo $loaddata['alamat']; ?></td>
+									<td class="text-center"><?php echo $loaddata['jenjang_pendidikan']; ?></td>
 									<td class="text-center"><?php echo $loaddata['jk']; ?></td>
 									<td class="text-center"><img width="50" src="<?php echo base_url(); ?>/asset/img/<?php echo $loaddata['photo']; ?>"></td>
 									<td>

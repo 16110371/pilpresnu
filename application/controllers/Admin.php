@@ -355,45 +355,117 @@
 		}
 		public function simpancalon()
 		{
-			$nisn			= $this->input->post('nisn');
-			$no				= $this->input->post('no');
-			$nama			= $this->input->post('nama');
-			$jk				= $this->input->post('jk');
-			$visimisi		= $this->input->post('visimisi');
+			$nisn  	 				= $this->input->post('nisn');
+			$no     				= $this->input->post('no');
+			$nama   				= $this->input->post('nama');
+			$jk     				= $this->input->post('jk');
+			$kategori             	= $this->input->post('kategori');
+
+			$visi   				= $this->input->post('visi');
+			$misi   				= $this->input->post('misi');
+
+			$tahun_khidmah        	= $this->input->post('tahun_khidmah');
+			$alamat              	= $this->input->post('alamat');
+			$jenjang_pendidikan   	= $this->input->post('jenjang_pendidikan');
+			$jabatan_pondok       	= $this->input->post('jabatan_pondok');
+
 			if (!in_array($jk, ['L', 'P'])) {
-				$this->session->set_flashdata('failed', 'Jenis kelamin calon wajib dipilih');
+				$this->session->set_flashdata(
+					'failed',
+					'Jenis kelamin calon wajib dipilih'
+				);
 				redirect('admin/datacalon');
 			}
-			$config['upload_path']	= "./asset/img/";
+
+			$config['upload_path']   = "./asset/img/";
 			$config['allowed_types'] = "gif|jpg|jpeg|png";
-			$config['max_size']		= 1024;
-			$config['file_name']	= $nisn;
+			$config['max_size']      = 1024;
+			$config['file_name']     = $nisn;
+
 			$this->load->library('upload', $config);
+
 			if ($this->upload->do_upload('photo')) {
-				$this->session->set_flashdata('info', 'Berhasil Menambahkan Data');
-				$data['upload_data'] = $this->upload->data();
-				$img 				= $_FILES['photo']['name'];
-				$img_ext			= pathinfo($img, PATHINFO_EXTENSION);
-				$photo				= $config['file_name'] . "." . $img_ext;
-				$this->Admin_Model->tambahcalon($nisn, $no, $nama, $jk, $visimisi, $photo);
+
+				$img      = $_FILES['photo']['name'];
+				$img_ext  = pathinfo($img, PATHINFO_EXTENSION);
+				$photo    = $config['file_name'] . "." . $img_ext;
+
+				$this->Admin_Model->tambahcalon(
+					$nisn,
+					$no,
+					$nama,
+					$jk,
+					$kategori,
+					$visi,
+					$misi,
+					$tahun_khidmah,
+					$alamat,
+					$jenjang_pendidikan,
+					$jabatan_pondok,
+					$photo
+				);
+
+				$this->session->set_flashdata(
+					'info',
+					'Berhasil Menambahkan Data'
+				);
+
 				redirect('admin/datacalon');
 			} else {
-				$this->session->set_flashdata('failed', 'Gagal Menambahkan Data');
+
+				$this->session->set_flashdata(
+					'failed',
+					$this->upload->display_errors()
+				);
+
 				redirect('admin/datacalon');
 			}
 		}
 		public function updatecalon()
 		{
-			$nisn			= $this->input->post('nisn');
-			$no				= $this->input->post('no');
-			$nama			= $this->input->post('nama');
-			$visimisi		= $this->input->post('visimisi');
-			$update		= $this->Admin_Model->updatecalon($nisn, $no, $nama, $visimisi);
-			if ($update == true) {
-				$this->session->set_flashdata('info', 'Berhasil MemperbaruiData');
-				redirect('admin/datacalon/');
+			$nisn   = $this->input->post('nisn');
+			$no     = $this->input->post('no');
+			$nama   = $this->input->post('nama');
+			$jk     = $this->input->post('jk');
+
+			$visi   = $this->input->post('visi');
+			$misi   = $this->input->post('misi');
+
+			$kategori             = $this->input->post('kategori');
+			$tahun_khidmah        = $this->input->post('tahun_khidmah');
+			$alamat               = $this->input->post('alamat');
+			$jenjang_pendidikan   = $this->input->post('jenjang_pendidikan');
+			$jabatan_pondok       = $this->input->post('jabatan_pondok');
+
+			$update = $this->Admin_Model->updatecalon(
+				$nisn,
+				$no,
+				$nama,
+				$jk,
+				$visi,
+				$misi,
+				$kategori,
+				$tahun_khidmah,
+				$alamat,
+				$jenjang_pendidikan,
+				$jabatan_pondok
+			);
+
+			if ($update) {
+
+				$this->session->set_flashdata(
+					'info',
+					'Berhasil Memperbarui Data'
+				);
+
+				redirect('admin/datacalon');
 			} else {
-				$this->session->set_flashdata('failed', 'Gagal Memperbarui Data');
+
+				$this->session->set_flashdata(
+					'failed',
+					'Gagal Memperbarui Data'
+				);
+
 				redirect('admin/editcalon/' . $nisn);
 			}
 		}

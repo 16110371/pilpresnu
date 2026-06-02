@@ -52,23 +52,101 @@ foreach ($datacalon as $loaddata) {
 					?>
 					<label class="label-control"> Nama Calon</label>
 					<?php
-					$form_attribute	= array(
-						'type'		=> 'text',
-						'name'		=> 'nama',
-						'class'		=> 'form-control',
-						'value'		=> $loaddata['nama']
-					);
-					echo form_input($form_attribute);
+					echo form_input([
+						'type'  => 'text',
+						'name'  => 'nama',
+						'class' => 'form-control',
+						'value' => $loaddata['nama']
+					]);
 					?>
-					<label class="label-control"> Visi Misi</label>
+
+					<label class="label-control"> Kategori Pemilihan</label>
 					<?php
-					$form_attribute	= array(
-						'type'		=> 'text',
-						'name'		=> 'visimisi',
-						'class'		=> 'form-control',
-						'value'		=> $loaddata['visimisi']
+					echo form_dropdown(
+						'kategori',
+						[
+							'kepala_pondok_putra_tepo' => 'Kepala Pondok Putra Tepo',
+							'wakil_kepala_pondok_putra_tepo' => 'Wakil Kepala Pondok Putra Tepo',
+							'kepala_pondok_putri_tepo' => 'Kepala Pondok Putri Tepo',
+							'wakil_kepala_pondok_putri_tepo' => 'Wakil Kepala Pondok Putri Tepo',
+							'wakil_kepala_pondok_putri_pagutan' => 'Wakil Kepala Pondok Putri Pagutan'
+						],
+						$loaddata['kategori'],
+						'class="form-control"'
 					);
-					echo form_textarea($form_attribute);
+					?>
+
+					<label class="label-control"> Jenis Kelamin</label>
+					<?php
+					echo form_dropdown(
+						'jk',
+						[
+							'L' => 'Laki-laki',
+							'P' => 'Perempuan'
+						],
+						$loaddata['jk'],
+						'class="form-control"'
+					);
+					?>
+
+					<label class="label-control"> Visi</label>
+					<?php
+					echo form_textarea([
+						'name'  => 'visi',
+						'class' => 'form-control',
+						'rows'  => 3,
+						'value' => $loaddata['visi']
+					]);
+					?>
+
+					<label class="label-control"> Misi</label>
+					<?php
+					echo form_textarea([
+						'name'  => 'misi',
+						'class' => 'form-control',
+						'rows'  => 4,
+						'value' => $loaddata['misi']
+					]);
+					?>
+
+					<label class="label-control"> Tahun Khidmah</label>
+					<?php
+					echo form_input([
+						'type'  => 'text',
+						'name'  => 'tahun_khidmah',
+						'class' => 'form-control',
+						'value' => $loaddata['tahun_khidmah']
+					]);
+					?>
+
+					<label class="label-control"> Alamat</label>
+					<?php
+					echo form_textarea([
+						'name'  => 'alamat',
+						'class' => 'form-control',
+						'rows'  => 2,
+						'value' => $loaddata['alamat']
+					]);
+					?>
+
+					<label class="label-control"> Jenjang Pendidikan</label>
+					<?php
+					echo form_input([
+						'type'  => 'text',
+						'name'  => 'jenjang_pendidikan',
+						'class' => 'form-control',
+						'value' => $loaddata['jenjang_pendidikan']
+					]);
+					?>
+
+					<label class="label-control"> Jabatan Pondok</label>
+					<?php
+					echo form_input([
+						'type'  => 'text',
+						'name'  => 'jabatan_pondok',
+						'class' => 'form-control',
+						'value' => $loaddata['jabatan_pondok']
+					]);
 					?>
 					<label class="label-control"> Foto</label>
 					<?php
@@ -103,7 +181,7 @@ foreach ($datacalon as $loaddata) {
 								<th class="text-center">No</th>
 								<th class="text-center">NISN</th>
 								<th class="text-center">Nama Calon</th>
-								<th class="text-center">No. Urut</th>
+								<th class="text-center">Kategori</th>
 								<th class="text-center">Photo Calon</th>
 							</tr>
 						</thead>
@@ -116,7 +194,7 @@ foreach ($datacalon as $loaddata) {
 									<td class="text-center"><?php echo $no++; ?></td>
 									<td class="text-center"><?php echo $loaddata['nisn']; ?></td>
 									<td class="text-center"><?php echo $loaddata['nama']; ?></td>
-									<td class="text-center"><?php echo $loaddata['no']; ?></td>
+									<td class="text-center"><?php echo $loaddata['kategori']; ?></td>
 									<td class="text-center"><img width="50" src="<?php echo base_url(); ?>/asset/img/<?php echo $loaddata['photo']; ?>"></td>
 								</tr>
 							<?php

@@ -4,7 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Voting - E-PILPRES</title>
+	<title>E-VOTE <?= date('Y'); ?> </title>
+	<link rel="icon" type="image/png" href="<?= base_url('asset/img/fav.jpg'); ?>">
 
 	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -18,13 +19,16 @@
 		}
 
 		:root {
-			--green-dark: #123524;
-			--green-mid: #1b5e20;
-			--green-accent: #00c853;
-			--green-hover: #00a145;
-			--glass-bg: rgba(255, 255, 255, 0.08);
-			--glass-border: rgba(255, 255, 255, 0.15);
-			--text-muted: #b2dfb6;
+			--blue-dark: #172554;
+			--blue-mid: #1E3A8A;
+			--blue-accent: #3B82F6;
+			--blue-hover: #2563EB;
+
+			--glass-bg: rgba(255, 255, 255, .08);
+			--glass-border: rgba(255, 255, 255, .15);
+
+			--text-muted: #BFDBFE;
+
 			--navbar-height: 64px;
 		}
 
@@ -36,7 +40,10 @@
 
 		body {
 			font-family: 'Poppins', sans-serif;
-			background: linear-gradient(135deg, #123524, #3E7B27);
+			background: linear-gradient(135deg,
+					#172554 0%,
+					#1E3A8A 45%,
+					#2563EB 100%);
 			color: white;
 			display: flex;
 			flex-direction: column;
@@ -48,9 +55,8 @@
 			position: fixed;
 			inset: 0;
 			background-image:
-				radial-gradient(circle at 15% 85%, rgba(0, 200, 83, 0.12) 0%, transparent 40%),
-				radial-gradient(circle at 85% 20%, rgba(0, 200, 83, 0.08) 0%, transparent 35%),
-				radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.15) 0%, transparent 70%);
+				radial-gradient(circle at 15% 85%, rgba(59, 130, 246, .20) 0%, transparent 40%),
+				radial-gradient(circle at 85% 20%, rgba(96, 165, 250, .15) 0%, transparent 35%);
 			pointer-events: none;
 			z-index: 0;
 		}
@@ -63,7 +69,7 @@
 			right: 0;
 			height: var(--navbar-height);
 			padding: 0 30px;
-			background: rgba(13, 59, 23, 0.75);
+			background: rgba(23, 37, 84, 0.75);
 			backdrop-filter: blur(16px);
 			-webkit-backdrop-filter: blur(16px);
 			border-bottom: 1px solid var(--glass-border);
@@ -104,13 +110,13 @@
 
 		.username {
 			font-size: 13px;
-			color: var(--text-muted);
+			--text-muted: #BFDBFE;
 		}
 
 		.logout-btn {
 			padding: 7px 18px;
 			border-radius: 20px;
-			background-color: var(--green-accent);
+			background-color: var(--blue-accent);
 			color: white;
 			text-decoration: none;
 			font-size: 13px;
@@ -119,7 +125,7 @@
 		}
 
 		.logout-btn:hover {
-			background-color: var(--green-hover);
+			background-color: var(--blue-hover);
 			color: white;
 			transform: translateY(-1px);
 		}
@@ -208,12 +214,14 @@
 			width: 32px;
 			height: 32px;
 			border-radius: 50%;
-			background: var(--green-accent);
+			background: var(--blue-accent);
+			box-shadow:
+				0 4px 12px rgba(59, 130, 246, .4);
 			font-weight: 700;
 			font-size: 14px;
 			flex-shrink: 0;
 			align-self: center;
-			box-shadow: 0 4px 12px rgba(0, 200, 83, 0.4);
+			/* box-shadow: 0 4px 12px rgba(0, 200, 83, 0.4); */
 		}
 
 		.card-img-wrap {
@@ -331,11 +339,14 @@
 		}
 
 		.modal-box {
-			background: linear-gradient(145deg, #0f3d1a, #1a5c22);
+			background:
+				linear-gradient(145deg,
+					#172554,
+					#1E3A8A);
 			border: none;
 			border-radius: 24px;
 			padding: 32px;
-			max-width: 480px;
+			max-width: 530px;
 			width: 100%;
 			position: relative;
 			box-shadow: none;
@@ -365,14 +376,14 @@
 			width: 36px;
 			height: 36px;
 			border-radius: 50%;
-			background: var(--green-accent);
+			background: var(--blue-accent);
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			font-weight: 700;
 			font-size: 15px;
 			flex-shrink: 0;
-			box-shadow: 0 4px 12px rgba(0, 200, 83, 0.4);
+			/* box-shadow: 0 4px 12px rgba(0, 200, 83, 0.4); */
 		}
 
 		.modal-name {
@@ -392,7 +403,7 @@
 			font-weight: 600;
 			letter-spacing: 3px;
 			text-transform: uppercase;
-			color: var(--green-accent);
+			color: var(--blue-accent);
 			margin-bottom: 10px;
 		}
 
@@ -420,7 +431,7 @@
 		}
 
 		.modal-content::-webkit-scrollbar-thumb {
-			background: var(--green-accent);
+			background: var(--blue-accent);
 			border-radius: 4px;
 		}
 
@@ -447,6 +458,12 @@
 			border-color: rgba(255, 255, 255, 0.4);
 		}
 
+		.profile-label {
+			color: #60A5FA;
+			font-weight: 700;
+			letter-spacing: .5px;
+		}
+
 		.ghost-card {
 			display: none;
 		}
@@ -460,7 +477,9 @@
 			padding: 10px 12px;
 			border-radius: 25px;
 			border: none;
-			background: linear-gradient(135deg, #00c853, #00a145);
+			background: linear-gradient(135deg,
+					#3B82F6,
+					#2563EB);
 			color: white;
 			font-weight: 700;
 			font-size: clamp(10px, 0.9vw, 13px);
@@ -468,12 +487,14 @@
 			cursor: pointer;
 			transition: all 0.3s ease;
 			text-transform: uppercase;
-			box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
+			/* box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3); */
 		}
 
 		.vote-btn:hover {
-			background: linear-gradient(135deg, #00e060, #00c853);
-			box-shadow: 0 6px 20px rgba(0, 200, 83, 0.5);
+			background: linear-gradient(135deg,
+					#60A5FA,
+					#3B82F6);
+			box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
 			transform: translateY(-1px);
 		}
 
@@ -494,7 +515,7 @@
 		}
 
 		.page-footer span {
-			color: var(--green-accent);
+			color: var(--blue-accent);
 			font-weight: 600;
 		}
 
@@ -576,6 +597,49 @@
 				-webkit-line-clamp: 1;
 			}
 		}
+
+		.header-brand {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 12px;
+			margin-bottom: 0;
+			height: 100%;
+		}
+
+		.header-brand img {
+			height: 90px;
+			width: auto;
+		}
+
+		.brand-text {
+			text-align: left;
+		}
+
+		.brand-text h1 {
+			margin-top: 10px;
+			font-size: 15px;
+			font-weight: 800;
+			color: #fff;
+			line-height: 1;
+		}
+
+		.brand-text span {
+			display: block;
+			margin-top: 1px;
+			font-size: 10px;
+			letter-spacing: 2px;
+			/* text-transform: uppercase; */
+			color: #60A5FA;
+			font-weight: 600;
+		}
+
+		.brand-text small {
+			display: block;
+			color: rgba(255, 255, 255, .7);
+			font-size: 11px;
+			margin-top: 4px;
+		}
 	</style>
 </head>
 
@@ -584,9 +648,13 @@
 	<!-- NAVBAR -->
 	<nav class="navbar-modern">
 		<div class="nav-content">
-			<div class="logo-text">
+			<div class="header-brand">
 				<!-- Ganti dengan <img> jika ada logo -->
-				<img src="<?= base_url(); ?>asset/img/logo.png" alt="Logo" style="height: 40px; width: auto;">
+				<img src="<?= base_url(); ?>asset/img/api.png" alt="Logo" style="height: 40px; width: auto;">
+				<div class="brand-text">
+					<h1>E-VOTE</h1>
+					<span>Yayasan Syubbanul Wathon</span>
+				</div>
 			</div>
 			<div class="nav-right">
 				<span class="username">Selamat Datang, <?= $CI->session->userdata('nama'); ?></span>
@@ -599,15 +667,14 @@
 	<div class="page-wrapper">
 		<div class="container">
 
-			<?php
-			$jk_now = $datacalon[0]['jk'] ?? '';
-			$organisasi = ($jk_now == 'L') ? 'IPNU' : 'IPPNU';
-			?>
+			<!-- <?php
+					$jk_now = $datacalon[0]['jk'] ?? '';
+					$organisasi = ($jk_now == 'L') ? 'IPNU' : 'IPPNU';
+					?> -->
 
 			<div class="page-title">
-				<h2>
-					Pemilihan Ketua & Wakil <?= $organisasi; ?><br>
-					Komisariat Syubbanul Wathon
+				<h2>PEMILIHAN<br>
+					<span><?= $judul; ?></span>
 				</h2>
 			</div>
 
@@ -626,15 +693,25 @@
 
 						<h3><?= $loaddata['nama']; ?></h3>
 
-						<?php if (!empty(trim($loaddata['visimisi']))): ?>
+
+						<?php if (
+																																				!empty($loaddata['tahun_khidmah']) ||
+																																				!empty($loaddata['alamat']) ||
+																																				!empty($loaddata['jenjang_pendidikan']) ||
+																																				!empty($loaddata['jabatan_pondok'])
+																																			): ?>
 							<button class="visimisi-btn"
 								data-no="<?= $nomor; ?>"
 								data-nama="<?= htmlspecialchars($loaddata['nama'], ENT_QUOTES); ?>"
-								data-visimisi="<?= htmlspecialchars($loaddata['visimisi'], ENT_QUOTES); ?>"
+								data-tahun="<?= htmlspecialchars($loaddata['tahun_khidmah'], ENT_QUOTES); ?>"
+								data-alamat="<?= htmlspecialchars($loaddata['alamat'], ENT_QUOTES); ?>"
+								data-jenjang="<?= htmlspecialchars($loaddata['jenjang_pendidikan'], ENT_QUOTES); ?>"
+								data-jabatan="<?= htmlspecialchars($loaddata['jabatan_pondok'], ENT_QUOTES); ?>"
 								onclick="openModal(this)">
-								Lihat Visi &amp; Misi
+								Lihat Profil
 							</button>
 						<?php endif; ?>
+
 
 						<div class="vote-form">
 							<?php echo form_open('user/vote'); ?>
@@ -674,24 +751,140 @@
 				<div class="modal-name" id="modalName"></div>
 			</div>
 			<div class="modal-divider"></div>
-			<div class="modal-label">Visi &amp; Misi</div>
-			<div class="modal-content" id="modalContent"></div>
+			<!-- <div class="modal-label">Visi &amp; Misi</div> -->
+
+			<!-- <div class="modal-content" id="modalContent">
+				<div class="visi-wrapper" style="margin-bottom: 25px;">
+					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 1px; margin-bottom: 8px; text-align: center;">VISI</div>
+					<div id="textVisi" style="line-height: 1.6; text-align: center;"></div>
+				</div>
+
+				<div class="misi-wrapper" style="margin-top: 20px;">
+					<div style="font-weight: bold; font-size: 14px; color: #4ade80; letter-spacing: 2px; margin-bottom: 12px; text-align: center;">MISI</div>
+
+					<div style="display: flex; justify-content: center;">
+
+						<div id="textMisi" style="
+            line-height: 1.8; 
+            text-align: left; 
+            max-width: 85%; /* Mengatur agar tidak terlalu mentok ke tepi modal */
+            display: grid;
+            grid-template-columns: auto 1fr;
+            column-gap: 8px; /* Jarak antara nomor '1.' dan teksnya */
+            row-gap: 12px;   /* Jarak antar poin nomor 1 dan nomor 2 */
+        "></div> -->
+			<div class="modal-content">
+
+				<table style="width:100%; color:white;">
+					<!-- <tr>
+						<td width="40%"><strong>Nama</strong></td>
+						<td id="profilNama"></td>
+					</tr> -->
+
+					<tr>
+						<td><strong class="profile-label">Tahun Khidmah</strong></td>
+						<td id="profilTahun"></td>
+					</tr>
+
+					<tr>
+						<td><strong class="profile-label">Alamat</strong></td>
+						<td id="profilAlamat"></td>
+					</tr>
+
+					<tr>
+						<td><strong class="profile-label">Jenjang Pendidikan</strong></td>
+						<td id="profilJenjang"></td>
+					</tr>
+				</table>
+
+				<hr style="margin:15px 0; border-color:rgba(255,255,255,.1);">
+
+				<div id="jabatanTable"></div>
+
+			</div>
+
 		</div>
+	</div>
+	</div>
+	</div>
 	</div>
 
 	<script>
+		// function openModal(btn) {
+		// 	const no = btn.getAttribute('data-no');
+		// 	const nama = btn.getAttribute('data-nama');
+		// 	const visi = btn.getAttribute('data-visi') || '';
+		// 	const misi = btn.getAttribute('data-misi') || '';
+
+		// 	document.getElementById('modalNumber').textContent = no;
+		// 	document.getElementById('modalName').textContent = nama;
+
+		// 	// Memformat baris baru (\n) dari database agar menjadi enter (<br>) di HTML
+		// 	const formattedVisi = visi.replace(/\n/g, '<br>');
+		// 	const formattedMisi = misi.replace(/\n/g, '<br>');
+
+		// 	// Memasukkan data ke tempatnya masing-masing
+		// 	document.getElementById('textVisi').innerHTML = formattedVisi;
+		// 	document.getElementById('textMisi').innerHTML = formattedMisi;
+
+		// 	document.getElementById('modalOverlay').classList.add('active');
+		// }
+
 		function openModal(btn) {
-			const no = btn.getAttribute('data-no');
-			const nama = btn.getAttribute('data-nama');
-			const visimisi = btn.getAttribute('data-visimisi');
+
+			const no = btn.dataset.no;
+			const nama = btn.dataset.nama;
+			const tahun = btn.dataset.tahun;
+			const alamat = btn.dataset.alamat;
+			const jenjang = btn.dataset.jenjang;
+			const jabatan = btn.dataset.jabatan;
 
 			document.getElementById('modalNumber').textContent = no;
 			document.getElementById('modalName').textContent = nama;
-			const formatted = visimisi
-				.replace(/\n/g, '<br>')
-				.replace(/(Visi\s*:)/gi, '<strong>$1</strong>')
-				.replace(/(Misi\s*:)/gi, '<strong>$1</strong>');
-			document.getElementById('modalContent').innerHTML = formatted;
+
+			// document.getElementById('profilNama').textContent = nama;
+			document.getElementById('profilTahun').textContent = tahun;
+			document.getElementById('profilAlamat').textContent = alamat;
+			document.getElementById('profilJenjang').textContent = jenjang;
+
+			let html = `
+	<table style="width:100%; color:white;">
+		<thead>
+			<tr>
+				<th class="profile-label">Tahun</th>
+				<th class="profile-label">Jabatan</th>
+			</tr>
+		</thead>
+		<tbody>
+	`;
+
+			if (jabatan) {
+
+				let rows = jabatan.split("\n");
+
+				rows.forEach(row => {
+
+					let parts = row.split("|");
+
+					if (parts.length >= 2) {
+
+						html += `
+				<tr>
+					<td style="text-align: center;">${parts[0]}</td>
+					<td style="text-align: center;">${parts[1]}</td>
+				</tr>
+				`;
+					}
+				});
+			}
+
+			html += `
+		</tbody>
+	</table>
+	`;
+
+			document.getElementById('jabatanTable').innerHTML = html;
+
 			document.getElementById('modalOverlay').classList.add('active');
 		}
 
